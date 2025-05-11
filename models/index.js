@@ -1,0 +1,5 @@
+export { default as Admin } from './Admin'
+export { default as Seat } from './Seat'
+export { default as Ticket } from './Ticket'
+export { default as Train } from './Train'
+export { default as User } from './User'
