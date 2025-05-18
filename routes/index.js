@@ -5,11 +5,17 @@ const { verify } = require('jsonwebtoken');
 const { default: insertListing } = require('./insertListing');
 import config from '../config'
 import buyTicket from './buyTicket';
+import cancelTicket from './admin/cancelTicket';
+import createStation from './admin/createStation';
 import getAvailability from './getAvailability';
 import getSeats from './getSeats';
 import getStations from './getStations';
+import getTicket from './getTicket';
 import getTrains from './getTrains';
 import adminLogin from './login';
+import createTrain from './admin/createTrain';
+import deleteStation from './admin/deleteStation';
+import deleteTrain from './admin/deleteTrain';
 
 var router = express.Router();
 
@@ -22,7 +28,14 @@ const connectionObject = {
 		"/getSeats": getSeats,
 		"/getTrains": getTrains,
 		"/getAvailability": getAvailability,
-		"/buyTicket": buyTicket
+		"/buyTicket": buyTicket,
+		"/getTicket": getTicket,
+		
+		"/admin/cancelTicket": cancelTicket,
+		"/admin/createStation": createStation,
+		"/admin/createTrain": createTrain,
+		"/admin/deleteStation": deleteStation,
+		"/admin/deleteTrain": deleteTrain,
 	}
 }
 

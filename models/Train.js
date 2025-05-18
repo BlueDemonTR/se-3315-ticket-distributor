@@ -17,7 +17,8 @@ const TrainSchema = new Schema({
     ticketPrice: {
         type: Number,
         min: 0
-    }
+    },
+    deleted: Boolean
 })
 
 const Train = model('Train', TrainSchema)

@@ -6,8 +6,7 @@ const SeatSchema = new Schema({
         ref: 'Train'
     },
     number: {
-        type: Schema.Types.ObjectId,
-        ref: 'String'
+        type: 'String'
     }
 })
 

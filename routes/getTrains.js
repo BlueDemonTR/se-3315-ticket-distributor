@@ -17,7 +17,8 @@ async function getTrains(req, res, id) {
   const query = { 
     departure: { $gte: after }, 
     duration: { $gte: durationMin },
-    ticketPrice: { $gte: ticketPriceMin }
+    ticketPrice: { $gte: ticketPriceMin },
+    deleted: false
   }
   if(from) query.from = from
   if(to) query.to = to

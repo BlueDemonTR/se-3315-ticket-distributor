@@ -1,7 +1,8 @@
 import { Schema, model } from 'mongoose'
 
 const StationSchema = new Schema({
-    name: String
+    name: String,
+    deleted: Boolean
 })
 
 const Station = model('Station', StationSchema)

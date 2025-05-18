@@ -1,7 +1,7 @@
 import { Seat, Ticket, User } from '../models'
 import { escapeString } from '../lib'
 
-async function buyTicket(req, res, id) {
+async function getTicket(req, res, id) {
   const { body } = req,
     { ticketId } = body
 
@@ -10,4 +10,4 @@ async function buyTicket(req, res, id) {
   return res.send({ ticket })
 }
 
-export default buyTicket
+export default getTicket
