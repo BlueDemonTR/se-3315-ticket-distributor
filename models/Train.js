@@ -10,7 +10,14 @@ const TrainSchema = new Schema({
         ref: 'Station'
     },
     departure: Date,
-    ticketPrice: Number
+    duration: {
+        type: Number,
+        min: 0
+    },
+    ticketPrice: {
+        type: Number,
+        min: 0
+    }
 })
 
 const Train = model('Train', TrainSchema)

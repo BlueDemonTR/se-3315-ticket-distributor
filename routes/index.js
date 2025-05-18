@@ -4,6 +4,11 @@ const { default: signup } = require('./signup');
 const { verify } = require('jsonwebtoken');
 const { default: insertListing } = require('./insertListing');
 import config from '../config'
+import buyTicket from './buyTicket';
+import getAvailability from './getAvailability';
+import getSeats from './getSeats';
+import getStations from './getStations';
+import getTrains from './getTrains';
 import adminLogin from './login';
 
 var router = express.Router();
@@ -12,7 +17,12 @@ const connectionObject = {
 	"GET": {
 	},
 	"POST": {
-		"/adminLogin": adminLogin
+		"/adminLogin": adminLogin,
+		"/getStations": getStations,
+		"/getSeats": getSeats,
+		"/getTrains": getTrains,
+		"/getAvailability": getAvailability,
+		"/buyTicket": buyTicket
 	}
 }
 
