@@ -10,12 +10,12 @@ const AdminSchema = new Schema({
 })
 
 // generates a hashed password with bycrpt
-UserSchema.methods.generateHash = function(password) {
+AdminSchema.methods.generateHash = function(password) {
     return bcrypt.hashSync(password, bcrypt.genSaltSync(8), null)
 }
 
 // for checking if the password is valid on login
-UserSchema.methods.validPassword = function(password, userPassword) {
+AdminSchema.methods.validPassword = function(password, userPassword) {
     return bcrypt.compareSync(password, userPassword)
 }
 

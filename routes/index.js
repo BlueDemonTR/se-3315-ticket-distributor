@@ -1,8 +1,5 @@
 var express = require('express');
-const { default: login } = require('./login');
-const { default: signup } = require('./signup');
 const { verify } = require('jsonwebtoken');
-const { default: insertListing } = require('./insertListing');
 import config from '../config'
 import buyTicket from './buyTicket';
 import cancelTicket from './admin/cancelTicket';
@@ -21,6 +18,9 @@ var router = express.Router();
 
 const connectionObject = {
 	"GET": {
+		"/test": async (req, res, id) => {
+			res.send("hello")
+		}
 	},
 	"POST": {
 		"/adminLogin": adminLogin,
@@ -57,7 +57,7 @@ function handleMessage(req, res) {
 		return
 	}
 	
-	const url = req.params[0]
+	const url = `/${req.params.splat[0]}`
 
 	const func = method[url]
 	
@@ -94,7 +94,7 @@ function handleMessage(req, res) {
 	func(req, res, id)
 }
 
-router.use('*', function(req, res, next) {
+router.use('/*splat', function(req, res, next) {
   handleMessage(req, res)
 });
 

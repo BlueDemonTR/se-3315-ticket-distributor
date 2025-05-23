@@ -3,14 +3,14 @@ import { escapeString } from '../../lib'
 
 async function deleteTrain(req, res, id) {
   const { body } = req,
-    { id } = body
+    { id: trainId } = body
 
   if(!authorize(id)) {
     res.send("Unauthorized", 400)
     return
   }
 
-  const train = await Train.findByIdAndUpdate(id, { deleted: true })
+  const train = await Train.findByIdAndUpdate(trainId, { deleted: true })
 
   return res.send(true)
 }
