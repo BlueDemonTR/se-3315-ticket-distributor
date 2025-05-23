@@ -4,6 +4,8 @@ import { useDispatch } from 'react-redux'
 import Homepage from '../screens/home'
 import { Header } from '../components'
 import Login from '../screens/login'
+import BuyTicket from '../screens/buyTicket'
+import AdminDashboard from '../screens/adminDashboard'
 
 const NonUser = ({ }) => {
     const dispatch = useDispatch()
@@ -26,10 +28,18 @@ const NonUser = ({ }) => {
                     path='/'
                     element={<Homepage />}
                 />
-                
+
                 <Route
                     path='/login'
                     element={<Login />}
+                />
+                <Route
+                    path='/buy-ticket'
+                    element={<BuyTicket />}
+                />
+                <Route
+                    path='/admin-dashboard'
+                    element={<AdminDashboard />}
                 />
             </Routes>
         </div>
