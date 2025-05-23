@@ -63,12 +63,12 @@ const Login = () => {
 		<Container>
 			<StyledPaper>
 				<Typography variant="h5" sx={{ color: palette.primary, fontWeight: 700, mb: 3, textAlign: 'center' }}>
-					Admin Girişi
+					Admin Login
 				</Typography>
-				{error && <Alert severity="error" sx={{ mb: 2 }}>Kullanıcı adı veya şifre hatalı!</Alert>}
+				{error && <Alert severity="error" sx={{ mb: 2 }}>Name or Password is incorrect</Alert>}
 				<Box component="form" onSubmit={handleSubmit}>
 					<TextField
-						label="Kullanıcı Adı"
+						label="Username"
 						value={username}
 						onChange={e => setUsername(e.target.value)}
 						fullWidth
@@ -76,7 +76,7 @@ const Login = () => {
 						sx={{ mb: 2, background: palette.background, borderRadius: 2 }}
 					/>
 					<TextField
-						label="Şifre"
+						label="Password"
 						type="password"
 						value={password}
 						onChange={e => setPassword(e.target.value)}
@@ -85,7 +85,7 @@ const Login = () => {
 						sx={{ mb: 3, background: palette.background, borderRadius: 2 }}
 					/>
 					<StyledButton onClick={handleSubmit} fullWidth>
-						Giriş Yap
+						Login
 					</StyledButton>
 				</Box>
 			</StyledPaper>

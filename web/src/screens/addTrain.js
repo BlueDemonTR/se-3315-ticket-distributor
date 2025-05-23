@@ -4,12 +4,12 @@ import { Form, Formik } from "formik";
 import * as Yup from 'yup';
 
 const validationSchema = Yup.object({
-    name: Yup.string().required('Tren adı zorunludur'),
-    from: Yup.string().required('Kalkış yeri zorunludur'),
-    to: Yup.string().required('Varış yeri zorunludur'),
-    departure: Yup.string().required('Kalkış saati zorunludur'),
-    arrival: Yup.string().required('Varış saati zorunludur'),
-    date: Yup.date().required('Tarih zorunludur')
+    name: Yup.string().required('Train name is required.'),
+    from: Yup.string().required('Departure is required.'),
+    to: Yup.string().required('Arrival is required.'),
+    departure: Yup.string().required('Departure Time is required.'),
+    arrival: Yup.string().required('Arrival Time is required.'),
+    date: Yup.date().required('Date is required.')
 });
 
 function AddTrain({ onAdd, onUpdate, defaultValues }) {
@@ -47,7 +47,7 @@ function AddTrain({ onAdd, onUpdate, defaultValues }) {
                 <Form>
                     <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
                         <TextField
-                            label="Tren Adı"
+                            label="Train Name"
                             name="name"
                             variant='outlined'
                             value={values.name}
@@ -58,7 +58,7 @@ function AddTrain({ onAdd, onUpdate, defaultValues }) {
                             required
                         />
                         <TextField
-                            label="Kalkış Yeri"
+                            label="Departure Location"
                             name="from"
                             variant='outlined'
                             value={values.from}
@@ -69,7 +69,7 @@ function AddTrain({ onAdd, onUpdate, defaultValues }) {
                             required
                         />
                         <TextField
-                            label="Varış Yeri"
+                            label="Arrival Location"
                             name="to"
                             variant='outlined'
                             value={values.to}
@@ -80,7 +80,7 @@ function AddTrain({ onAdd, onUpdate, defaultValues }) {
                             required
                         />
                         <TextField
-                            label="Kalkış Saati"
+                            label="Depature Time"
                             name="departure"
                             type="time"
                             variant='outlined'
@@ -93,7 +93,7 @@ function AddTrain({ onAdd, onUpdate, defaultValues }) {
                             required
                         />
                         <TextField
-                            label="Varış Saati"
+                            label="Arrival Time"
                             name="arrival"
                             type="time"
                             variant='outlined'
@@ -106,7 +106,7 @@ function AddTrain({ onAdd, onUpdate, defaultValues }) {
                             required
                         />
                         <TextField
-                            label="Tarih"
+                            label="Date"
                             name="date"
                             type="date"
                             variant='outlined'
@@ -129,7 +129,7 @@ function AddTrain({ onAdd, onUpdate, defaultValues }) {
                                 }
                             }}
                         >
-                            {defaultValues ? 'Treni Güncelle' : 'Tren Ekle'}
+                            {defaultValues ? 'Update Train' : 'Add Train'}
                         </Button>
                     </Box>
                 </Form>

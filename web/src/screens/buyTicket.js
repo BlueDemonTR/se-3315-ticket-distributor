@@ -105,7 +105,7 @@ const BuyTicket = () => {
         return (
             <Container>
                 <StyledPaper>
-                    <Typography color="error">Tren bilgisi bulunamadı.</Typography>
+                    <Typography color="error">Train data not found.</Typography>
                 </StyledPaper>
             </Container>
         );
@@ -118,11 +118,11 @@ const BuyTicket = () => {
                     Bilet Satın Al
                 </Typography>
                 <Typography sx={{ color: palette.secondary, mb: 2 }}>
-                    {train.name} &mdash; Kalkış: <b>{train.departure}</b> | Varış: <b>{train.arrival}</b>
+                    {train.name} &mdash; Departure: <b>{train.departure}</b> | Arrival: <b>{train.arrival}</b>
                 </Typography>
                 <Box mb={3}>
                     <Typography sx={{ color: palette.primary, fontWeight: 600, mb: 1 }}>
-                        Koltuk Seçimi
+                        Select Seat
                     </Typography>
                     <Box
                         sx={{
@@ -156,31 +156,31 @@ const BuyTicket = () => {
                 </Box>
                 <Box component="form" onSubmit={handleSubmit}>
                     <TextField
-                        label="İsim Soyisim"
+                        label="Name"
                         value={name}
                         onChange={e => setName(e.target.value)}
                         fullWidth
                         required
                         error={error && !name}
-                        helperText={error && !name ? 'İsim zorunludur' : ''}
+                        helperText={error && !name ? 'Name is required' : ''}
                         sx={{ mb: 2, background: palette.background, borderRadius: 2 }}
                     />
                     <TextField
-                        label="E-posta (opsiyonel)"
+                        label="Email"
                         value={email}
                         onChange={e => setEmail(e.target.value)}
                         fullWidth
                         sx={{ mb: 2, background: palette.background, borderRadius: 2 }}
                     />
                     <TextField
-                        label="Telefon (opsiyonel)"
+                        label="Phone"
                         value={phone}
                         onChange={e => setPhone(e.target.value)}
                         fullWidth
                         sx={{ mb: 3, background: palette.background, borderRadius: 2 }}
                     />
                     <StyledButton onClick={handleSubmit} on fullWidth disabled={!name || !seat}>
-                        Satın Al
+                        Buy
                     </StyledButton>
                 </Box>
             </StyledPaper>

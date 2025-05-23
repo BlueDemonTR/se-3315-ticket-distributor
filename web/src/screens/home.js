@@ -126,7 +126,7 @@ const HomePage = () => {
 				<Box justifyContent={'space-between'} display={'flex'} alignItems={'center'} gap={2}>
 					<Box flex={2}>
 						<Typography variant="subtitle2" sx={{ color: palette.primary, fontWeight: 600, mb: 1 }}>
-							Nereden
+							From
 						</Typography>
 						<TextField
 							select
@@ -145,7 +145,7 @@ const HomePage = () => {
 					</Box>
 					<Box flex={2}>
 						<Typography variant="subtitle2" sx={{ color: palette.primary, fontWeight: 600, mb: 1 }}>
-							Nereye
+							To
 						</Typography>
 						<TextField
 							select
@@ -164,7 +164,7 @@ const HomePage = () => {
 					</Box>
 					<Box>
 						<Typography variant="subtitle2" sx={{ color: palette.primary, fontWeight: 600, mb: 1 }}>
-							Gidiş Tarihi
+							Departure Date
 						</Typography>
 						<LocalizationProvider dateAdapter={AdapterDateFns}>
 							<DatePicker
@@ -178,7 +178,7 @@ const HomePage = () => {
 					</Box>
 					<Box alignSelf={'flex-end'}>
 						<StyledButton onClick={handleSearch} fullWidth>
-							Tren Ara
+							Search Train
 						</StyledButton>
 					</Box>
 				</Box>
@@ -189,7 +189,7 @@ const HomePage = () => {
 				<Box mt={4}>
 					{filteredTrains.length === 0 ? (
 						<Typography sx={{ color: palette.primary, textAlign: 'center', mt: 2 }}>
-							Seçtiğiniz güzergah için tren bulunamadı.
+							No train has been found for the selected destination.
 						</Typography>
 					) : (
 						filteredTrains.map((train) => (
@@ -199,15 +199,15 @@ const HomePage = () => {
 										{train.name}
 									</Typography>
 									<Typography sx={{ color: palette.secondary }}>
-										Kalkış: <b>{train.departure}</b> &nbsp;|&nbsp; Varış: <b>{train.arrival}</b>
+										Departure: <b>{train.departure}</b> &nbsp;|&nbsp; Arrival: <b>{train.arrival}</b>
 									</Typography>
 								</Box>
 								<Box display="flex" alignItems="center" gap={2}>
 									<Typography sx={{ color: palette.accent, fontWeight: 600 }}>
-										Kalan Koltuk: {train.seats}
+										Seats Left: {train.seats}
 									</Typography>
 									<StyledButton onClick={() => handleBuyTicket(train)} sx={{ minWidth: 120, ml: 2 }}>
-										Bilet Satın Al
+										Buy Ticket
 									</StyledButton>
 								</Box>
 							</TrainCard>

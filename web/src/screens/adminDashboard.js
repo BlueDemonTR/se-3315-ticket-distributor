@@ -90,19 +90,19 @@ const AdminDashboard = () => {
                 <Typography variant="h5" sx={{ color: palette.primary, fontWeight: 700, mb: 3 }}>
                     Admin Dashboard
                 </Typography>
-                <StyledButton onClick={handleOpenAddModal} sx={{ mb: 3 }}>Yeni Tren Ekle</StyledButton>
+                <StyledButton onClick={handleOpenAddModal} sx={{ mb: 3 }}>Add train</StyledButton>
 
                 <TableContainer>
                     <Table>
                         <TableHead>
                             <TableRow>
-                                <TableCell>Tren Adı</TableCell>
-                                <TableCell>Kalkış</TableCell>
-                                <TableCell>Varış</TableCell>
-                                <TableCell>Kalkış Saati</TableCell>
-                                <TableCell>Varış Saati</TableCell>
-                                <TableCell>Tarih</TableCell>
-                                <TableCell align="center">İşlemler</TableCell>
+                                <TableCell>Train Name</TableCell>
+                                <TableCell>Departure</TableCell>
+                                <TableCell>Arrival</TableCell>
+                                <TableCell>Departure Time</TableCell>
+                                <TableCell>Arrival Time</TableCell>
+                                <TableCell>Date</TableCell>
+                                <TableCell align="center">Actions</TableCell>
                             </TableRow>
                         </TableHead>
                         <TableBody>
@@ -142,7 +142,7 @@ const AdminDashboard = () => {
                         p: 4,
                     }}>
                         <Typography variant="h6" align='center' gutterBottom>
-                            {mode === 'edit' ? 'Tren Düzenle' : 'Yeni Tren Ekle'}
+                            {mode === 'edit' ? 'Edit Train' : 'Add Train'}
                         </Typography>
                         <AddTrain
                             defaultValues={editingTrain}
