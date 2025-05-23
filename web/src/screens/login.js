@@ -10,6 +10,9 @@ import {
 } from '@mui/material';
 import { styled } from '@mui/material/styles';
 import { useNavigate } from 'react-router-dom';
+import Api from '../lib/Api';
+import { useDispatch } from 'react-redux'
+import storage from '../lib/storage';
 
 const palette = {
 	primary: '#27187E',
@@ -49,14 +52,29 @@ const Login = () => {
 	const [error, setError] = useState(false);
 	const navigate = useNavigate();
 
-	const handleSubmit = () => {
-		// Hardcoded admin: admin / password: 1234
-		if (username === 'admin' && password === '1234') {
-			setError(false);
-			navigate('/admin-dashboard');
-		} else {
-			setError(true);
-		}
+	// DISPATCH INITIALIZELA
+	const dispatch = useDispatch();
+
+	const handleSubmit = async () => {
+
+		// SUNUCUYA REQUEST AT
+		const res = await Api.post('adminLogin', { username, password })
+		
+		// EĞER CEVAP GELMEZSE HATA VER
+		if(!res) return setError(true);
+		// EĞER CEVAP GELİRSE HATAYI KALDIR
+		setError(false);
+
+		// PLAYER'I REDUX'A KOY
+		dispatch({
+			type: 'SET_USER',
+			payload: res.user
+		})
+
+		// TOKENİ STORAGE'A KOY
+		await storage.setItem('token', res.token)
+		
+		navigate('/');
 	};
 
 	return (

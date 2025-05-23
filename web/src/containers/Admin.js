@@ -7,7 +7,7 @@ import Login from '../screens/login'
 import BuyTicket from '../screens/buyTicket'
 import AdminDashboard from '../screens/adminDashboard'
 
-const NonUser = ({ }) => {
+const Admin = ({ }) => {
     const dispatch = useDispatch()
 
     useEffect(() => {
@@ -26,20 +26,11 @@ const NonUser = ({ }) => {
             <Routes>
                 <Route
                     path='/'
-                    element={<Homepage />}
-                />
-
-                <Route
-                    path='/login'
-                    element={<Login />}
-                />
-                <Route
-                    path='/buy-ticket'
-                    element={<BuyTicket />}
+                    element={<AdminDashboard />}
                 />
             </Routes>
         </div>
     )
 }
 
-export default NonUser
+export default Admin

@@ -74,13 +74,19 @@ function handleMessage(req, res) {
 
 	if(req?.headers?.authorization) {
 		try {
-      const token = req.headers.authorization
+      const token = req.headers.authorization.slice(7)
+
+			console.log(token);
+			
 
 			id = verify(
 				token, 
 				config.JWT_SECRET
 			).data
 		} catch (error) {
+			console.log(error);
+			
+
       res.status(401)
 			res.write('Token Expired')
 			
