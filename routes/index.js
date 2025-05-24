@@ -57,7 +57,7 @@ function handleMessage(req, res) {
 		return
 	}
 	
-	const url = `/${req.params.splat[0]}`
+	const url = `${req.params.splat.reduce((prev, curr) => prev + "/" + curr, "")}`
 
 	const func = method[url]
 	
