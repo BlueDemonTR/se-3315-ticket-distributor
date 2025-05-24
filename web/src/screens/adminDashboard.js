@@ -68,10 +68,13 @@ const AdminDashboard = () => {
 
     const getStationName = (id) => stations.find(s => s._id === id)?.name || id;
 
-    const handleAdd = (newTrain) => {
-        if (!newTrain.name || !newTrain.from || !newTrain.to || !newTrain.departure || !newTrain.arrival) return;
-        setTrains([...trains, { ...newTrain, id: Date.now() }]);
-        setOpen(false);
+    const handleAdd = async (newTrain) => {
+        console.log(newTrain);
+        const res = await Api.post('admin/createTrain', newTrain);
+        if (res) {
+            setTrains([...trains, res.train]);
+            setOpen(false);
+        }
     };
 
     const handleDelete = (id) => {

@@ -44,7 +44,7 @@ function AddTrain({ onAdd, onUpdate, defaultValues }) {
         ticketPrice: defaultValues?.ticketPrice || '',
     };
 
-    const handleFormikSubmit = async (values, { resetForm }) => {
+    const handleFormikSubmit = (values, { resetForm }) => {
         setError('');
         const payload = {
             name: values.name,
@@ -56,25 +56,13 @@ function AddTrain({ onAdd, onUpdate, defaultValues }) {
             seatNames: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
         };
 
-        try {
-            console.log(payload);
-            const res = await Api.post('admin/createTrain', payload);
-
-            if (defaultValues && onUpdate) {
-                onUpdate(payload);
-            } else {
-                onAdd(payload);
-            }
-            resetForm();
-        } catch (error) {
-            // Axios error response
-            if (error.response && error.response.data) {
-                setError(error.response.data.message || 'Failed to add train. Please try again.');
-            } else {
-                setError('Failed to add train. Please try again.');
-            }
-            console.error('Error adding train:', error);
+        if (defaultValues && onUpdate) {
+            onUpdate(payload);
+        } else {
+            onAdd(payload);
         }
+        resetForm();
+
     };
 
     return (
