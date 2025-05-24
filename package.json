@@ -8,10 +8,12 @@
   },
   "license": "MIT",
   "dependencies": {
+    "@mui/x-date-pickers": "^8.4.0",
     "axios": "^1.8.4",
     "bcrypt": "^5.1.1",
     "cors": "^2.8.5",
     "date-fns": "^4.1.0",
+    "dayjs": "^1.11.13",
     "dotenv": "^16.4.7",
     "esm-wallaby": "^3.2.32",
     "express": "^5.1.0",

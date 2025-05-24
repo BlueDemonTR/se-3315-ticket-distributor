@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
     Box,
     Typography,
@@ -17,6 +17,7 @@ import {
 } from '@mui/material';
 import { styled } from '@mui/material/styles';
 import AddTrain from './addTrain';
+import Api from '../lib/Api';
 
 const palette = {
     primary: '#27187E',
@@ -55,6 +56,17 @@ const AdminDashboard = () => {
     const [editingTrain, setEditingTrain] = useState(null);
     const [open, setOpen] = useState(false);
     const [mode, setMode] = useState('add');
+    const [stations, setStations] = useState([]);
+
+    useEffect(() => {
+        async function fetchStations() {
+            const res = await Api.post('getStations', {});
+            setStations(res?.stations || []);
+        }
+        fetchStations();
+    }, []);
+
+    const getStationName = (id) => stations.find(s => s._id === id)?.name || id;
 
     const handleAdd = (newTrain) => {
         if (!newTrain.name || !newTrain.from || !newTrain.to || !newTrain.departure || !newTrain.arrival) return;
@@ -101,7 +113,6 @@ const AdminDashboard = () => {
                                 <TableCell>Arrival</TableCell>
                                 <TableCell>Departure Time</TableCell>
                                 <TableCell>Arrival Time</TableCell>
-                                <TableCell>Date</TableCell>
                                 <TableCell align="center">Actions</TableCell>
                             </TableRow>
                         </TableHead>
@@ -109,11 +120,10 @@ const AdminDashboard = () => {
                             {trains.map((train) => (
                                 <TableRow key={train.id}>
                                     <TableCell>{train.name}</TableCell>
-                                    <TableCell>{train.from}</TableCell>
-                                    <TableCell>{train.to}</TableCell>
+                                    <TableCell>{getStationName(train.from)}</TableCell>
+                                    <TableCell>{getStationName(train.to)}</TableCell>
                                     <TableCell>{train.departure}</TableCell>
                                     <TableCell>{train.arrival}</TableCell>
-                                    <TableCell>{new Date(train.date).toLocaleDateString('tr-TR')}</TableCell>
                                     <TableCell align="center">
                                         <IconButton onClick={() => handleEdit(train)} sx={{ color: palette.primary }}>✏️</IconButton>
                                         <IconButton onClick={() => handleDelete(train.id)} sx={{ color: palette.accent }}>🗑️</IconButton>

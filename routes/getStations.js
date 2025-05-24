@@ -12,9 +12,6 @@ async function getStations(req, res, id) {
   const stations = await Station
     .find(query)
     .sort('name')
-    .skip(skip)
-    .limit(20)
-
   return res.send({ stations })
 }
 

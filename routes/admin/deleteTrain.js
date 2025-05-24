@@ -1,11 +1,11 @@
 import { Seat, Station, Ticket, Train, User } from '../../models'
-import { escapeString } from '../../lib'
+import { authorize, escapeString } from '../../lib'
 
 async function deleteTrain(req, res, id) {
   const { body } = req,
     { id: trainId } = body
 
-  if(!authorize(id)) {
+  if (!authorize(id)) {
     res.send("Unauthorized", 400)
     return
   }
