@@ -18,7 +18,10 @@ const TrainSchema = new Schema({
         type: Number,
         min: 0
     },
-    deleted: Boolean
+    deleted: {
+        type: Boolean,
+        default: false
+    }
 })
 
 const Train = model('Train', TrainSchema)

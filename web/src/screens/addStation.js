@@ -19,7 +19,7 @@ const validationSchema = Yup.object({
     ticketPrice: Yup.number().required('Price is required.').min(0, 'Price must be positive')
 });
 
-function AddTrain({ onAdd, onUpdate, defaultValues }) {
+function AddStation({ onAdd, onUpdate, defaultValues }) {
     const [error, setError] = useState('');
     const stations = useSelector(state => state.stations);
     const dispatch = useDispatch()
@@ -201,4 +201,4 @@ function AddTrain({ onAdd, onUpdate, defaultValues }) {
     );
 }
 
-export default AddTrain;
+export default AddStation;

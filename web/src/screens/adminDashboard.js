@@ -18,6 +18,7 @@ import {
 import { styled } from '@mui/material/styles';
 import AddTrain from './addTrain';
 import Api from '../lib/Api';
+import { useDispatch, useSelector } from 'react-redux';
 
 const palette = {
     primary: '#27187E',
@@ -52,19 +53,35 @@ const StyledButton = styled(Button)(({ theme }) => ({
 }));
 
 const AdminDashboard = () => {
-    const [trains, setTrains] = useState([]);
     const [editingTrain, setEditingTrain] = useState(null);
     const [open, setOpen] = useState(false);
     const [mode, setMode] = useState('add');
-    const [stations, setStations] = useState([]);
+    const stations = useSelector(state => state.stations) ?? [];
+    const trains = useSelector(state => state.trains) ?? [];
+    const dispatch = useDispatch()
 
     useEffect(() => {
-        async function fetchStations() {
-            const res = await Api.post('getStations', {});
-            setStations(res?.stations || []);
-        }
-        fetchStations();
+        fetch();
     }, []);
+
+    async function fetch() {
+        const res = await Api.post('getStations', {});
+        if(!res) return
+
+        dispatch({
+            type: 'SET_STATIONS',
+            payload: res.stations
+        })
+
+        const res1 = await Api.post('getTrains', {});
+        console.log(res1)
+        if(!res1) return
+
+        dispatch({
+            type: 'SET_TRAINS',
+            payload: res1.trains
+        })
+    };
 
     const getStationName = (id) => stations.find(s => s._id === id)?.name || id;
 
@@ -72,13 +89,20 @@ const AdminDashboard = () => {
         console.log(newTrain);
         const res = await Api.post('admin/createTrain', newTrain);
         if (res) {
-            setTrains([...trains, res.train]);
+            dispatch({
+                type: 'ADD_TRAIN',
+                payload: res
+            })
+
             setOpen(false);
         }
     };
 
     const handleDelete = (id) => {
-        setTrains(trains.filter(t => t.id !== id));
+        dispatch({
+            type: 'REMOVE_TRAIN',
+            payload: { _id: id }
+        })
     };
 
     const handleEdit = (train) => {
@@ -88,7 +112,11 @@ const AdminDashboard = () => {
     };
 
     const handleUpdate = (updatedTrain) => {
-        setTrains(trains.map(t => t.id === updatedTrain.id ? updatedTrain : t));
+        dispatch({
+            type: 'UPDATE_TRAIN',
+            payload: updatedTrain
+        })
+
         setOpen(false);
         setEditingTrain(null);
     };

@@ -6,7 +6,7 @@ async function getTrains(req, res, id) {
     { 
       from, 
       to, 
-      after = new Date(), 
+      after = 0, 
       before, 
       durationMin = 0, 
       durationMax, 

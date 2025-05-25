@@ -5,6 +5,8 @@ import hardSet from 'redux-persist/lib/stateReconciler/hardSet'
 
 import storage from 'redux-persist/lib/storage'
 import user from './reducers/user'
+import stations from './reducers/stations'
+import trains from './reducers/trains'
 
 const rootPersistConfig = {
   key: 'root',
@@ -14,7 +16,9 @@ const rootPersistConfig = {
 }
 
 const rootReducer = combineReducers({
-  user
+  user,
+  stations,
+  trains
 })
 
 const pReducer = persistReducer(rootPersistConfig, rootReducer)
