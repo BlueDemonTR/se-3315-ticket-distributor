@@ -15,6 +15,8 @@ async function createStation(req, res, id) {
     deleted: false
   })
 
+  await station.save()
+
   return res.send({ station })
 }
 

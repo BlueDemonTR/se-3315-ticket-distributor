@@ -19,6 +19,9 @@ import { styled } from '@mui/material/styles';
 import AddTrain from './addTrain';
 import Api from '../lib/Api';
 import { useDispatch, useSelector } from 'react-redux';
+import Col from '../components/Col';
+import Row from '../components/Row';
+import AddStation from './addStation';
 
 const palette = {
     primary: '#27187E',
@@ -74,7 +77,6 @@ const AdminDashboard = () => {
         })
 
         const res1 = await Api.post('getTrains', {});
-        console.log(res1)
         if(!res1) return
 
         dispatch({
@@ -86,7 +88,6 @@ const AdminDashboard = () => {
     const getStationName = (id) => stations.find(s => s._id === id)?.name || id;
 
     const handleAdd = async (newTrain) => {
-        console.log(newTrain);
         const res = await Api.post('admin/createTrain', newTrain);
         if (res) {
             dispatch({
@@ -133,7 +134,14 @@ const AdminDashboard = () => {
                 <Typography variant="h5" sx={{ color: palette.primary, fontWeight: 700, mb: 3 }}>
                     Admin Dashboard
                 </Typography>
-                <StyledButton onClick={handleOpenAddModal} sx={{ mb: 3 }}>Add train</StyledButton>
+
+                <Row gap='8px'>
+
+                    <StyledButton onClick={handleOpenAddModal} sx={{ mb: 3 }}>Add train</StyledButton>
+
+                    <AddStation />
+
+                </Row>
 
                 <TableContainer>
                     <Table>
