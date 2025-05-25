@@ -14,6 +14,10 @@ import { styled } from '@mui/material/styles';
 import { LocalizationProvider, DatePicker } from '@mui/x-date-pickers';
 import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
 import { useNavigate } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import { startOfDay, endOfDay, format } from 'date-fns'
+import Api from '../lib/Api';
+
 
 // Renk paleti
 const palette = {
@@ -23,44 +27,6 @@ const palette = {
 	background: '#F1F2F6',
 	light: '#AEB8FE',
 };
-
-const stations = [
-	{ value: 'istanbul', label: 'İstanbul' },
-	{ value: 'ankara', label: 'Ankara' },
-	{ value: 'izmir', label: 'İzmir' },
-	{ value: 'eskişehir', label: 'Eskişehir' },
-	{ value: 'konya', label: 'Konya' },
-];
-
-const mockTrains = [
-	{
-		id: 1,
-		name: 'Yüksek Hızlı Tren',
-		departure: '08:00',
-		arrival: '12:00',
-		seats: 34,
-		from: 'istanbul',
-		to: 'ankara',
-	},
-	{
-		id: 2,
-		name: 'Ekspres',
-		departure: '10:30',
-		arrival: '16:00',
-		seats: 12,
-		from: 'istanbul',
-		to: 'ankara',
-	},
-	{
-		id: 3,
-		name: 'Bölgesel',
-		departure: '14:00',
-		arrival: '20:00',
-		seats: 5,
-		from: 'izmir',
-		to: 'ankara',
-	},
-];
 
 const StyledPaper = styled(Paper)(({ theme }) => ({
 	padding: theme.spacing(3),
@@ -95,26 +61,52 @@ const TrainCard = styled(Paper)(({ theme }) => ({
 }));
 
 const HomePage = () => {
+	const stations = useSelector(state => state.stations)
 	const [from, setFrom] = useState('istanbul');
 	const [to, setTo] = useState('ankara');
 	const [date, setDate] = useState(new Date());
 	const [showTrains, setShowTrains] = useState(false);
 	const [filteredTrains, setFilteredTrains] = useState([]);
 	const navigate = useNavigate();
-
+	const dispatch = useDispatch()
 	
+	useEffect(() => {
+			fetch();
+	}, []);
+
+	async function fetch() {
+			const res = await Api.post('getStations', {});
+			if(!res) return
+
+			dispatch({
+					type: 'SET_STATIONS',
+					payload: res.stations
+			})
+	};
+
 	useEffect(() => {
 		setShowTrains(false);
 	}, [from, to, date]);
-
 	
-	const handleSearch = () => {
-		const results = mockTrains.filter(
-			(train) => train.from === from && train.to === to
+	const handleSearch = async () => {
+		const res = await Api.post(
+			'getTrains', 
+			{
+				after: startOfDay(date),
+				before: endOfDay(date),
+				from: from._id,
+				to: to._id
+			}
 		);
-		setFilteredTrains(results);
-		setShowTrains(true);
+		if(!res) return
+
+		setShowTrains(true)
+		setFilteredTrains(res.trains)
 	};
+
+	function getStation(_id) {
+		return stations.find(x => x._id === _id)
+	}
 
 	const handleBuyTicket = (train) => {
 		navigate('/buy-ticket', { state: { train } });
@@ -137,8 +129,8 @@ const HomePage = () => {
 							sx={{ background: palette.background, borderRadius: 2, fontSize: 10 }}
 						>
 							{stations.map(option => (
-								<MenuItem key={option.value} value={option.value}>
-									{option.label}
+								<MenuItem key={option.name} value={option._id}>
+									{option.name}
 								</MenuItem>
 							))}
 						</TextField>
@@ -156,8 +148,8 @@ const HomePage = () => {
 							sx={{ background: palette.background, borderRadius: 2, fontSize: 10 }}
 						>
 							{stations.map(option => (
-								<MenuItem key={option.value} value={option.value}>
-									{option.label}
+								<MenuItem key={option.name} value={option._id}>
+									{option.name}
 								</MenuItem>
 							))}
 						</TextField>
@@ -196,16 +188,16 @@ const HomePage = () => {
 							<TrainCard key={train.id}>
 								<Box>
 									<Typography variant="h6" sx={{ color: palette.primary, fontWeight: 700 }}>
-										{train.name}
+										From {getStation(train.from)?.name} to {getStation(train.to)?.name}
 									</Typography>
 									<Typography sx={{ color: palette.secondary }}>
-										Departure: <b>{train.departure}</b> &nbsp;|&nbsp; Arrival: <b>{train.arrival}</b>
+										Departure: <b>{format(train.departure, 'd MMM Y hh:mm') }</b> 
+										&nbsp;|&nbsp; 
+										Duration: <b>{train.duration + ' '}</b> 
+										Minute{train.duration === 1 || 's'}
 									</Typography>
 								</Box>
 								<Box display="flex" alignItems="center" gap={2}>
-									<Typography sx={{ color: palette.accent, fontWeight: 600 }}>
-										Seats Left: {train.seats}
-									</Typography>
 									<StyledButton onClick={() => handleBuyTicket(train)} sx={{ minWidth: 120, ml: 2 }}>
 										Buy Ticket
 									</StyledButton>

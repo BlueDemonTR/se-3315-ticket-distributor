@@ -20,9 +20,6 @@ const trains = (state = [], action) => {
 
 			case 'REMOVE_TRAIN':
 				return state.filter(x => x._id !== payload._id)
-				
-      case 'LOGOUT':
-        return []
   
       default:
         return state

@@ -13,9 +13,6 @@ const stations = (state = [], action) => {
 
 			case 'REMOVE_STATION':
 				return state.filter(x => x._id !== payload._id)
-				
-      case 'LOGOUT':
-        return []
   
       default:
         return state
