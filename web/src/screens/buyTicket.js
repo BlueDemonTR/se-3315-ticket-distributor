@@ -11,6 +11,8 @@ import {
 import { styled } from '@mui/material/styles';
 import { useLocation, useNavigate } from 'react-router-dom';
 import Api from '../lib/Api';
+import Row from '../components/Row';
+import { useEffect } from 'react';
 
 const palette = {
     primary: '#27187E',
@@ -43,16 +45,6 @@ const StyledButton = styled(Button)(({ theme }) => ({
         backgroundColor: '#e67a00',
     },
 }));
-
-const seatLayout = [
-    [1, 3, 5, 7, 9, 11, 13, 15, 17, 19],
-    [2, 4, 6, 8, 10, 12, 14, 16, 18, 20],
-    [null, null, null, null, null, null, null, null, null, null],
-    [21, 23, 25, 27, 29, 31, 33, 35, 37, 39],
-    [22, 24, 26, 28, 30, 32, 34, 36, 38, 40],
-];
-
-const occupiedSeats = [2, 5, 8, 13, 17, 22, 25, 28]; // örnek dolu koltuklar
 
 const SeatBox = styled(Box)(({ theme, selected, occupied, isEmpty }) => ({
     width: 36,
@@ -88,6 +80,22 @@ const BuyTicket = () => {
     const [email, setEmail] = useState('');
     const [phone, setPhone] = useState('');
     const [error, setError] = useState(false);
+    const [seatLayout, setSeatLayout] = useState([])
+
+    useEffect(() => {
+        fetch();
+    }, []);
+
+    async function fetch() {
+        const res = await Api.post('getSeats', { train: train._id });
+        if(!res) return
+
+        setSeatLayout(res.seats.sort((a, b) => a.number - b.number))
+    };
+
+    function handleSelectSeat(number) {
+        setSeat(number)
+    }
 
     const handleSubmit = async () => {
         if (!name) {
@@ -135,23 +143,19 @@ const BuyTicket = () => {
                             mb: 2,
                         }}
                     >
-                        {seatLayout.map((row, i) => (
-                            <Box key={i} sx={{ display: 'flex', flexDirection: 'row', mb: 0.5 }}>
-                                {row.map((num, j) => (
-                                    <SeatBox
-                                        key={`${i}-${j}`}
-                                        selected={seat == num}
-                                        occupied={occupiedSeats.includes(num)}
-                                        isEmpty={num === null}
-                                        onClick={() => {
-                                            if (num !== null && !occupiedSeats.includes(num)) setSeat(num);
-                                        }}
-                                    >
-                                        {num}
-                                    </SeatBox>
-                                ))}
-                            </Box>
-                        ))}
+                        <Row wrapFlex>
+                            {seatLayout.map(({ number, _id, occupied }, i) => (
+                                <SeatBox
+                                    key={`${i}`}
+                                    selected={seat === number}
+                                    occupied={occupied}
+                                    isEmpty={number === null}
+                                    onClick={() => !occupied && handleSelectSeat(number)}
+                                >
+                                    {number}
+                                </SeatBox>
+                            ))}
+                        </Row>
                     </Box>
                 </Box>
                 <Box component="form" onSubmit={handleSubmit}>

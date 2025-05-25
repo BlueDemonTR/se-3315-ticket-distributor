@@ -1,4 +1,4 @@
-import { Seat, Station, Train } from '../models'
+import { Seat, Station, Ticket, Train } from '../models'
 import { escapeString } from '../lib'
 
 async function getSeats(req, res, id) {
@@ -9,7 +9,16 @@ async function getSeats(req, res, id) {
   const seats = await Seat
     .find(query)
 
-  return res.send({ seats })
+  const ticket = await Ticket.find({
+    _id: seats.map(x => x._id)
+  })
+
+  const mappedSeats = seats.map(x => ({
+    ...x.toObject(),
+    occupied: !!ticket.find(y => y.seat.toString() === x._id.toString())
+  }))
+
+  return res.send({ seats: mappedSeats })
 }
 
 export default getSeats
