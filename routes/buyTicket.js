@@ -15,7 +15,7 @@ async function buyTicket(req, res, id) {
   }
 
   const exists = await Ticket
-    .findOne({ seat })
+    .findOne({ seat, deleted: { $ne: true } })
 
   if(exists) {
     res.send("Seat Taken", 400)
@@ -28,7 +28,7 @@ async function buyTicket(req, res, id) {
     user = await User.create({
       name,
       email,
-      phone
+      phoneNumber: phone
     })
   }
 

@@ -13,7 +13,6 @@ import {
     TableHead,
     TableRow,
     IconButton,
-    Modal
 } from '@mui/material';
 import { styled } from '@mui/material/styles';
 import AddTrain from './addTrain';
@@ -24,7 +23,7 @@ import Row from '../components/Row';
 import AddStation from './addStation';
 import { format } from 'date-fns';
 import ViewTicket from './viewTicket';
-import { Spinner2 } from '../components';
+import { Spinner2, Modal } from '../components';
 
 const palette = {
     primary: '#27187E',
@@ -132,7 +131,13 @@ const AdminDashboard = () => {
     }
 
     function handleRemoveTicket(ticketId) {
-        setTickets(tickets => tickets.filter(x => x._id !== ticketId))
+        const prefilter = tickets
+        const postfilter = tickets.filter(x => x._id !== ticketId)
+        
+        console.log(prefilter.map(x => x._id), postfilter.map(x => x._id))
+
+
+        setTickets(postfilter)
 
     }
 
@@ -212,66 +217,50 @@ const AdminDashboard = () => {
                 </TableContainer>
 
                 <Modal
-                    open={open}
-                    onClose={() => setOpen(false)}
+                    visible={open}
+                    closeModal={() => setOpen(false)}
+                    wid='400px'
+                    ht='500px'
                     aria-labelledby="modal-modal-title"
                     aria-describedby="modal-modal-description"
                 >
-                    <Box sx={{
-                        position: 'absolute',
-                        top: '50%',
-                        left: '50%',
-                        transform: 'translate(-50%, -50%)',
-                        width: 400,
-                        bgcolor: 'background.paper',
-                        borderRadius: 2,
-                        boxShadow: 24,
-                        p: 4,
-                    }}>
-                        <Typography variant="h6" align='center' gutterBottom>
-                            {mode === 'edit' ? 'Edit Train' : 'Add Train'}
-                        </Typography>
-                        <AddTrain
-                            defaultValues={editingTrain}
-                            onAdd={handleAdd}
-                            onUpdate={handleUpdate}
-                        />
-                    </Box>
+                    <Col pad='12px' wid='calc(100% - 24px)'>
+                    <Typography variant="h6" align='center' gutterBottom>
+                        {mode === 'edit' ? 'Edit Train' : 'Add Train'}
+                    </Typography>
+                    <AddTrain
+                        defaultValues={editingTrain}
+                        onAdd={handleAdd}
+                        onUpdate={handleUpdate}
+                    />
+                    </Col>
+                    
                 </Modal>
 
                 <Modal
-                    open={openTicketView}
-                    onClose={() => setOpenTicketView(false)}
+                    visible={openTicketView}
+                    closeModal={() => setOpenTicketView(false)}
+                    wid='750px'
+                    ht='600px'
                     aria-labelledby="modal-modal-title"
                     aria-describedby="modal-modal-description"
                 >
-                    <Box sx={{
-                        position: 'absolute',
-                        top: '50%',
-                        left: '50%',
-                        transform: 'translate(-50%, -50%)',
-                        width: 700,
-                        height: 600,
-                        overflowX: 'hidden',
-                        overflowY: 'scroll',
-                        bgcolor: 'background.paper',
-                        borderRadius: 2,
-                        boxShadow: 24,
-                        p: 4,
-                    }}>
+                    <Col pad='12px 0 0' center>
                         <Typography variant="h5" align='center' sx={{ color: palette.primary, fontWeight: 700 }} gutterBottom>
                             Tickets
                         </Typography>
-
-                        {tickets.map(ticket => (
+                    </Col>
+                    
+                    <Col pad='20px'>
+                        {tickets.map((ticket, i) => (
                             <ViewTicket
+                                key={i}
                                 hasCancel={true}
                                 mappedTicket={ticket}
                                 onCancel={() => handleRemoveTicket(ticket._id)}
                             />
                         ))}
-
-                    </Box>
+                    </Col>
                 </Modal>
             </StyledPaper>
         </Container>

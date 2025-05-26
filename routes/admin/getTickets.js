@@ -12,7 +12,7 @@ async function getTickets(req, res, id) {
   const seatIds = seats.map(x => x._id)
 
   const tickets = await Ticket
-    .find({ seat: seatIds })
+    .find({ seat: seatIds, deleted: { $ne: true } })
     .populate('owner')
     .populate({
       path: 'seat',

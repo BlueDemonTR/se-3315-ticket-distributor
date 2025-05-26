@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { Spinner2 } from '../components'
+import { Col, Spinner2 } from '../components'
 import { useNavigate, useParams } from 'react-router-dom'
 import { useEffect } from 'react'
 import Api from '../lib/Api'
@@ -23,16 +23,16 @@ const ViewTicket = ({ hasCancel, mappedTicket, onCancel = () => null }) => {
 	const { id } = useParams()
 	const navigate = useNavigate()
 	const [loading, setLoading] = useState(false)
-	const [ticket, setTicket] = useState(null)
+	const [_ticket, setTicket] = useState(null)
+	const ticket = mappedTicket ?? _ticket
 
 	useEffect(() => {
-		if (mappedTicket) {
-			setTicket(mappedTicket);
-		}
-		else fetch()
+		fetch()
 	}, [])
 
 	async function fetch() {
+		if(!id) return false
+		
 		setLoading(true)
 		const res = await Api.post('getTicket', { ticketId: id })
 		setLoading(false)
