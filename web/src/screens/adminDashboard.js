@@ -136,6 +136,10 @@ const AdminDashboard = () => {
         setEditingTrain(null);
         setOpen(true);
     };
+    
+    function formatDeparture(time) {
+        return format(new Date(time), 'd MMM y hh:mm')
+    }
 
     return (
         <Container>
@@ -168,7 +172,7 @@ const AdminDashboard = () => {
                                 <TableRow key={train.id}>
                                     <TableCell>{getStationName(train.from)}</TableCell>
                                     <TableCell>{getStationName(train.to)}</TableCell>
-                                    <TableCell>{format(train.departure, 'd MMM y hh:mm')}</TableCell>
+                                    <TableCell>{formatDeparture(train.departure)}</TableCell>
                                     <TableCell>{train.duration}</TableCell>
                                     <TableCell align="center">
                                         <IconButton onClick={() => handleEdit(train)} sx={{ color: palette.primary }}>✏️</IconButton>

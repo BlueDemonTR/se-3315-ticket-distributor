@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { Col, Row, Text } from '../components'
+import { Col, Row, Spinner2, Text } from '../components'
 import { useNavigate, useParams } from 'react-router-dom'
 import { useEffect } from 'react'
 import Api from '../lib/Api'
@@ -9,6 +9,7 @@ import { ButtonBase } from '@mui/material'
 const ViewTicket = ({ hasCancel }) => {
 	const { id } = useParams()
 	const navigate = useNavigate()
+	const [loading, setLoading] = useState(false)
 	const [ticket, setTicket] = useState(null)
 
 	useEffect(() => {
@@ -16,7 +17,10 @@ const ViewTicket = ({ hasCancel }) => {
 	}, [])
 
 	async function fetch() {
+		setLoading(true)
+
 		const res = await Api.post('getTicket', { ticketId: id })
+		setLoading(false)
 		if(!res) return
 
 		setTicket(res.ticket)
@@ -29,6 +33,12 @@ const ViewTicket = ({ hasCancel }) => {
 		navigate('/');
 
 	}
+
+	if(loading) return (
+		<Col wid='100%' ht='700px' centerAll noFlex gap='16px'>
+			<Spinner2 />
+		</Col>
+	)
 
 	if(!ticket) return null
 

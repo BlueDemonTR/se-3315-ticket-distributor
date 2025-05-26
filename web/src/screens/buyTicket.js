@@ -13,6 +13,7 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import Api from '../lib/Api';
 import Row from '../components/Row';
 import { useEffect } from 'react';
+import { Spinner2 } from '../components';
 
 const palette = {
     primary: '#27187E',
@@ -80,6 +81,8 @@ const BuyTicket = () => {
     const [email, setEmail] = useState('');
     const [phone, setPhone] = useState('');
     const [error, setError] = useState(false);
+    const [submitLoading, setSubmitLoading] = useState(false);
+    const [fetchLoading, setFetchLoading] = useState(false);
     const [seatLayout, setSeatLayout] = useState([])
 
     useEffect(() => {
@@ -87,8 +90,12 @@ const BuyTicket = () => {
     }, []);
 
     async function fetch() {
+        setFetchLoading(true)
+
         const res = await Api.post('getSeats', { train: train._id });
         if(!res) return
+
+        setFetchLoading(false)
 
         setSeatLayout(res.seats.sort((a, b) => a.number - b.number))
     };
@@ -98,15 +105,18 @@ const BuyTicket = () => {
     }
 
     const handleSubmit = async () => {
+        setSubmitLoading(true)
+
         if (!name) {
             setError(true);
             return;
         }
-        // Backende bağlanır muhtemelen
+        
         const res = await Api.post("buyTicket", { train, number: seat, name, email, phone })
         if (!res) return;
 
-        navigate('/');
+        setSubmitLoading(false)
+        navigate(`/ticket/${res.ticket._id}`);
     };
 
     if (!train) {
@@ -144,17 +154,21 @@ const BuyTicket = () => {
                         }}
                     >
                         <Row wrapFlex>
-                            {seatLayout.map(({ number, _id, occupied }, i) => (
-                                <SeatBox
-                                    key={`${i}`}
-                                    selected={seat === number}
-                                    occupied={occupied}
-                                    isEmpty={number === null}
-                                    onClick={() => !occupied && handleSelectSeat(number)}
-                                >
-                                    {number}
-                                </SeatBox>
-                            ))}
+                            
+                            {!fetchLoading ? (
+                                seatLayout.map(({ number, _id, occupied }, i) => (
+                                    <SeatBox
+                                        key={`${i}`}
+                                        selected={seat === number}
+                                        occupied={occupied}
+                                        isEmpty={number === null}
+                                        onClick={() => !occupied && handleSelectSeat(number)}
+                                    >
+                                        {number}
+                                    </SeatBox>
+                            ))) : (
+                                <Spinner2 />
+                            )}
                         </Row>
                     </Box>
                 </Box>
@@ -183,9 +197,13 @@ const BuyTicket = () => {
                         fullWidth
                         sx={{ mb: 3, background: palette.background, borderRadius: 2 }}
                     />
-                    <StyledButton onClick={handleSubmit} on fullWidth disabled={!name || !seat}>
-                        Buy
-                    </StyledButton>
+                    {submitLoading ? (
+                        <Spinner2 />
+                    ) : (
+                        <StyledButton onClick={handleSubmit} on fullWidth disabled={!name || !seat}>
+                            Buy
+                        </StyledButton>
+                    )}
                 </Box>
             </StyledPaper>
         </Container>

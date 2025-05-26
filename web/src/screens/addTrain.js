@@ -9,6 +9,7 @@ import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { DateTimePicker } from '@mui/x-date-pickers/DateTimePicker';
 import dayjs from 'dayjs';
 import { useDispatch, useSelector } from 'react-redux';
+import { Spinner2 } from '../components';
 
 const validationSchema = Yup.object({
     from: Yup.string().required('Departure is required.'),
@@ -20,6 +21,7 @@ const validationSchema = Yup.object({
 
 function AddTrain({ onAdd, onUpdate, defaultValues }) {
     const [error, setError] = useState('');
+    const [loading, setLoading] = useState(false);
     const stations = useSelector(state => state.stations);
     const dispatch = useDispatch()
 
@@ -45,8 +47,10 @@ function AddTrain({ onAdd, onUpdate, defaultValues }) {
         ticketPrice: defaultValues?.ticketPrice || '',
     };
 
-    const handleFormikSubmit = (values, { resetForm }) => {
+    const handleFormikSubmit = async (values, { resetForm }) => {
         setError('');
+        setLoading(true)
+
         const payload = {
             from: values.from,
             to: values.to,
@@ -57,11 +61,13 @@ function AddTrain({ onAdd, onUpdate, defaultValues }) {
         };
 
         if (defaultValues && onUpdate) {
-            onUpdate(payload);
+            await onUpdate(payload);
         } else {
-            onAdd(payload);
+            await onAdd(payload);
         }
         resetForm();
+
+        setLoading(false)
 
     };
 
@@ -167,19 +173,23 @@ function AddTrain({ onAdd, onUpdate, defaultValues }) {
                             }}
                             required
                         />
-                        <Button
-                            variant="contained"
-                            type="submit"
-                            disabled={isSubmitting}
-                            sx={{
-                                bgcolor: '#27187E',
-                                '&:hover': {
-                                    bgcolor: '#1A1257'
-                                }
-                            }}
-                        >
-                            {defaultValues ? 'Update Train' : 'Add Train'}
-                        </Button>
+                        {loading ? (
+                            <Spinner2 />
+                        ) : (
+                            <Button
+                                variant="contained"
+                                type="submit"
+                                disabled={isSubmitting}
+                                sx={{
+                                    bgcolor: '#27187E',
+                                    '&:hover': {
+                                        bgcolor: '#1A1257'
+                                    }
+                                }}
+                            >
+                                {defaultValues ? 'Update Train' : 'Add Train'}
+                            </Button>
+                        )}
                     </Box>
                 </Form>
             )}

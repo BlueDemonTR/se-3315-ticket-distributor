@@ -38,9 +38,6 @@ async function editTrain(req, res, id) {
     }))
   )
 
-  
-  console.log(seats);
-
   return res.send({ train: newTrain, seats })
 }
 
