@@ -187,7 +187,7 @@ const AdminDashboard = () => {
                                     <TableCell>{formatDeparture(train.departure)}</TableCell>
                                     <TableCell>{train.duration}</TableCell>
                                     <TableCell align="center">
-                                        <IconButton onClick={() => handleOpenTicketView(train.id) }>🎟️</IconButton>
+                                        <IconButton onClick={() => handleOpenTicketView(train)}>🎟️</IconButton>
                                         <IconButton onClick={() => handleEdit(train)} sx={{ color: palette.primary }}>✏️</IconButton>
                                         <IconButton onClick={() => handleDelete(train.id)} sx={{ color: palette.accent }}>🗑️</IconButton>
                                     </TableCell>
@@ -236,7 +236,7 @@ const AdminDashboard = () => {
                         top: '50%',
                         left: '50%',
                         transform: 'translate(-50%, -50%)',
-                        width: 400,
+                        width: 500,
                         bgcolor: 'background.paper',
                         borderRadius: 2,
                         boxShadow: 24,

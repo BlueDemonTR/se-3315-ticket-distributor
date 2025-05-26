@@ -4,7 +4,7 @@ import { useNavigate, useParams } from 'react-router-dom'
 import { useEffect } from 'react'
 import Api from '../lib/Api'
 import { addMinutes, format } from 'date-fns'
-import { Button} from '@mui/material'
+import { Button, Container} from '@mui/material'
 
 const ViewTicket = ({ hasCancel,mappedTicket}) => {
 	const { id } = useParams()
@@ -53,24 +53,11 @@ const ViewTicket = ({ hasCancel,mappedTicket}) => {
 	const arrival = addMinutes(new Date(train.departure), train.duration)
 
 	return (
-		<Col wid='100%' ht='700px' centerAll noFlex gap='16px'>
-			{hasCancel && (
-				<Button
-					sx={{
-						background: 'red',
-						color: 'white',
-						padding: 4
-					}} 
-					onClick={cancelTicket}
-				>
-
-					Cancel Ticket
-				</Button>
-			)}
+			
 
 
 			
-			<Col pad='12px' wid='600px' bg='cyan' center noFlex>
+			<Container sx={{marginBottom:5, border:'1px solid black'}}>
 				<Row gap='16px'>
 					<Col>
 						<Text bold b1>From:</Text>
@@ -91,6 +78,21 @@ const ViewTicket = ({ hasCancel,mappedTicket}) => {
 							<Text>{format(arrival, 'd MMM y hh:mm')}</Text>
 						</Row>
 					</Col>
+					<Col>
+					{hasCancel && (
+				<Button
+					sx={{
+						background: 'red',
+						color: 'white',
+						padding: 4,
+					}} 
+					onClick={cancelTicket}
+				>
+					Cancel Ticket
+				</Button>)}
+
+					</Col>
+
 				</Row>
 
 				<Row gap='8px' start>
@@ -113,10 +115,12 @@ const ViewTicket = ({ hasCancel,mappedTicket}) => {
 							<Text>{owner.email}</Text>
 						</Row>
 					)}
-	
 				</Row>
-			</Col>
-		</Col>
+			
+			
+			
+			</Container>
+
 	)
 }
 
