@@ -8,6 +8,10 @@ const TicketSchema = new Schema({
     seat: {
         type: Schema.Types.ObjectId,
         ref: 'Seat'
+    },
+    deleted: {
+        type: Boolean,
+        default: false
     }
 })
 

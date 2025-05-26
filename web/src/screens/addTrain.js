@@ -11,7 +11,6 @@ import dayjs from 'dayjs';
 import { useDispatch, useSelector } from 'react-redux';
 
 const validationSchema = Yup.object({
-    name: Yup.string().required('Train name is required.'),
     from: Yup.string().required('Departure is required.'),
     to: Yup.string().required('Arrival is required.'),
     departure: Yup.date().required('Departure Time is required.'),
@@ -39,7 +38,6 @@ function AddTrain({ onAdd, onUpdate, defaultValues }) {
     };
 
     const initialValues = {
-        name: defaultValues?.name || '',
         from: defaultValues?.from || '',
         to: defaultValues?.to || '',
         departure: defaultValues?.departure ? dayjs(defaultValues.departure) : dayjs(),
@@ -50,7 +48,6 @@ function AddTrain({ onAdd, onUpdate, defaultValues }) {
     const handleFormikSubmit = (values, { resetForm }) => {
         setError('');
         const payload = {
-            name: values.name,
             from: values.from,
             to: values.to,
             departure: values.departure.toISOString(),
@@ -85,17 +82,6 @@ function AddTrain({ onAdd, onUpdate, defaultValues }) {
                                 {error}
                             </Box>
                         )}
-                        <TextField
-                            label="Train Name"
-                            name="name"
-                            variant='outlined'
-                            value={values.name}
-                            onChange={handleChange}
-                            onBlur={handleBlur}
-                            error={touched.name && Boolean(errors.name)}
-                            helperText={touched.name && errors.name}
-                            required
-                        />
                         <FormControl fullWidth error={touched.from && Boolean(errors.from)}>
                             <InputLabel>Departure Location</InputLabel>
                             <Select

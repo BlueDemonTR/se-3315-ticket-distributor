@@ -22,6 +22,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import Col from '../components/Col';
 import Row from '../components/Row';
 import AddStation from './addStation';
+import { format } from 'date-fns';
 
 const palette = {
     primary: '#27187E',
@@ -155,22 +156,20 @@ const AdminDashboard = () => {
                     <Table>
                         <TableHead>
                             <TableRow>
-                                <TableCell>Train Name</TableCell>
                                 <TableCell>Departure</TableCell>
                                 <TableCell>Arrival</TableCell>
                                 <TableCell>Departure Time</TableCell>
-                                <TableCell>Arrival Time</TableCell>
+                                <TableCell>Duration (Minutes)</TableCell>
                                 <TableCell align="center">Actions</TableCell>
                             </TableRow>
                         </TableHead>
                         <TableBody>
                             {trains.map((train) => (
                                 <TableRow key={train.id}>
-                                    <TableCell>{train.name}</TableCell>
                                     <TableCell>{getStationName(train.from)}</TableCell>
                                     <TableCell>{getStationName(train.to)}</TableCell>
-                                    <TableCell>{train.departure}</TableCell>
-                                    <TableCell>{train.arrival}</TableCell>
+                                    <TableCell>{format(train.departure, 'd MMM y hh:mm')}</TableCell>
+                                    <TableCell>{train.duration}</TableCell>
                                     <TableCell align="center">
                                         <IconButton onClick={() => handleEdit(train)} sx={{ color: palette.primary }}>✏️</IconButton>
                                         <IconButton onClick={() => handleDelete(train.id)} sx={{ color: palette.accent }}>🗑️</IconButton>

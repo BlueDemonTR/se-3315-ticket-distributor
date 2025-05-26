@@ -25,11 +25,10 @@ async function editTrain(req, res, id) {
     { new: true }
   )
 
-  console.log(newTrain);
-  
-
-  await Seat.deleteMany({
+  await Seat.updateMany({
     train: _id
+  }, {
+    deleted: true
   })
 
   const seats = await Promise.all(
