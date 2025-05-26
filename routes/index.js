@@ -14,6 +14,7 @@ import createTrain from './admin/createTrain';
 import deleteStation from './admin/deleteStation';
 import deleteTrain from './admin/deleteTrain';
 import editTrain from './admin/editTrain';
+import getTickets from './admin/getTickets';
 
 var router = express.Router();
 
@@ -37,7 +38,8 @@ const connectionObject = {
 		"/admin/createTrain": createTrain,
 		"/admin/deleteStation": deleteStation,
 		"/admin/deleteTrain": deleteTrain,
-		"/admin/editTrain": editTrain
+		"/admin/editTrain": editTrain,
+		"/admin/getTickets": getTickets
 	}
 }
 
