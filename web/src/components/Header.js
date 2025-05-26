@@ -67,7 +67,6 @@ const Header = () => {
 
 				<Box sx={{ display: 'flex', gap: 2, marginRight: 2 }}>
 					<StyledButton onClick={handleHome}>Home</StyledButton>
-					<StyledButton>About</StyledButton>
 					<StyledButton variant="contained"
 						sx={{
 							backgroundColor: '#FF8600',

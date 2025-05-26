@@ -24,6 +24,7 @@ import Row from '../components/Row';
 import AddStation from './addStation';
 import { format } from 'date-fns';
 import ViewTicket from './viewTicket';
+import { Spinner2 } from '../components';
 
 const palette = {
     primary: '#27187E',
@@ -65,6 +66,7 @@ const AdminDashboard = () => {
     const stations = useSelector(state => state.stations) ?? [];
     const trains = useSelector(state => state.trains) ?? [];
     const [tickets, setTickets] = useState([]);
+    const [ticketLoading, setTicketLoading] = useState(false)
     const dispatch = useDispatch()
 
     useEffect(() => {
@@ -73,7 +75,7 @@ const AdminDashboard = () => {
 
     async function fetch() {
         const res = await Api.post('getStations', {});
-        if(!res) return
+        if (!res) return
 
         dispatch({
             type: 'SET_STATIONS',
@@ -81,7 +83,7 @@ const AdminDashboard = () => {
         })
 
         const res1 = await Api.post('getTrains', {});
-        if(!res1) return
+        if (!res1) return
 
         dispatch({
             type: 'SET_TRAINS',
@@ -116,18 +118,22 @@ const AdminDashboard = () => {
         setOpen(true);
     };
 
-    const handleOpenTicketView = async (trainId) =>{
+
+    const handleOpenTicketView = async (trainId) => {
+        setTicketLoading(true);
         const res = await Api.post('admin/getTickets', { trainId });
+        setTicketLoading(false);
         if (!res) return;
 
-        setTickets(res.tickets); // veya API'nin dönüş yapısına göre düzenle
+        setTickets(res.tickets); 
         setOpenTicketView(true);
+
 
     }
 
     function handleRemoveTicket(ticketId) {
         setTickets(tickets => tickets.filter(x => x._id !== ticketId))
-        
+
     }
 
     const handleUpdate = async (updatedTrain) => {
@@ -137,7 +143,7 @@ const AdminDashboard = () => {
         }
 
         const res = await Api.post('admin/editTrain', data);
-        if(!res) return
+        if (!res) return
 
         dispatch({
             type: 'UPDATE_TRAIN',
@@ -153,7 +159,7 @@ const AdminDashboard = () => {
         setEditingTrain(null);
         setOpen(true);
     };
-    
+
     function formatDeparture(time) {
         return format(new Date(time), 'd MMM y hh:mm')
     }
@@ -192,10 +198,13 @@ const AdminDashboard = () => {
                                     <TableCell>{formatDeparture(train.departure)}</TableCell>
                                     <TableCell>{train.duration}</TableCell>
                                     <TableCell align="center">
-                                        <IconButton onClick={() => handleOpenTicketView(train._id)}>🎟️</IconButton>
-                                        <IconButton onClick={() => handleEdit(train)} sx={{ color: palette.primary }}>✏️</IconButton>
-                                        <IconButton onClick={() => handleDelete(train._id)} sx={{ color: palette.accent }}>🗑️</IconButton>
+                                        <Row center>
+                                            {ticketLoading ? <Col marg={'13px 0 0'} ht={'25px'} wid={'25px'} noFlex> <Spinner2 /> </Col> : <IconButton onClick={() => handleOpenTicketView(train._id)}>🎟️</IconButton>}
+                                            <IconButton onClick={() => handleEdit(train)} sx={{ color: palette.primary }}>✏️</IconButton>
+                                            <IconButton onClick={() => handleDelete(train._id)} sx={{ color: palette.accent }}>🗑️</IconButton>
+                                        </Row>
                                     </TableCell>
+
                                 </TableRow>
                             ))}
                         </TableBody>
@@ -241,7 +250,7 @@ const AdminDashboard = () => {
                         top: '50%',
                         left: '50%',
                         transform: 'translate(-50%, -50%)',
-                        width: 500,
+                        width: 700,
                         height: 600,
                         overflowX: 'hidden',
                         overflowY: 'scroll',
@@ -250,10 +259,10 @@ const AdminDashboard = () => {
                         boxShadow: 24,
                         p: 4,
                     }}>
-                        <Typography variant="h6" align='center' gutterBottom>
+                        <Typography variant="h5" align='center' sx={{ color: palette.primary, fontWeight: 700 }} gutterBottom>
                             Tickets
                         </Typography>
-                        
+
                         {tickets.map(ticket => (
                             <ViewTicket
                                 hasCancel={true}
@@ -261,7 +270,7 @@ const AdminDashboard = () => {
                                 onCancel={() => handleRemoveTicket(ticket._id)}
                             />
                         ))}
-                        
+
                     </Box>
                 </Modal>
             </StyledPaper>

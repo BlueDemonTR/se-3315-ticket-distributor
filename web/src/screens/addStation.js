@@ -1,51 +1,86 @@
 import React, { useState } from 'react'
 import Col from '../components/Col'
 import { Clickable, Row, Spinner2, Text } from '../components'
+import { Box, TextField, Button, CircularProgress } from '@mui/material'
 import { useDispatch } from 'react-redux'
 import Api from '../lib/Api'
 
-const AddStation = ({  }) => {
+const palette = {
+	primary: '#27187E',
+	secondary: '#758BFD',
+	accent: '#FF8600',
+	background: '#F1F2F6',
+	light: '#AEB8FE',
+};
+
+const AddStation = () => {
 	const [name, setName] = useState('')
 	const [loading, setLoading] = useState(false)
 	const dispatch = useDispatch()
 
 	async function createStation() {
-		setName('')
-		
-		if(!name) return
-		
-		setLoading(true)
+		if (!name) return
 
+		setLoading(true)
 		const res = await Api.post('admin/createStation', { name });
 		setLoading(false)
-		
-		if(!res) return
+
+		if (!res) return
 
 		dispatch({
-				type: 'ADD_STATION',
-				payload: res.station
+			type: 'ADD_STATION',
+			payload: res.station
 		})
+		setName('')
 	}
 
 	return (
-		<Row pad='12px' hasBorder='2px solid #000000' hasRadius='10px' gap='8px' center>
+		<Box sx={{ display: 'flex', gap: 1, alignItems: 'center', mt: 1}}>
 			{loading ? (
 				<Spinner2 />
 			) : (
-				<React.Fragment>
-					<input value={name} onChange={(e) => setName(e.target.value)} placeholder='Station Name'/>
-
-					<Clickable onClick={createStation}>
-						<Col pad='4px 6px' hasRadius='10px' bg='green'>
-							<Text col='white'>
-								+
-							</Text>
-						</Col>
-
-					</Clickable>
-				</React.Fragment>
+				<>
+					<TextField
+						value={name}
+						onChange={(e) => setName(e.target.value)}
+						placeholder='Station Name'
+						size="small"
+						sx={{
+							background: palette.background,
+							borderRadius: 2,
+							'& .MuiOutlinedInput-root': {
+								'& fieldset': {
+									borderColor: 'transparent',
+								},
+								'&:hover fieldset': {
+									borderColor: 'transparent',
+								},
+								'&.Mui-focused fieldset': {
+									borderColor: palette.accent,
+								},
+							},
+						}}
+					/>
+					<Button
+						onClick={createStation}
+						variant="contained"
+						sx={{
+							backgroundColor: palette.accent,
+							color: '#fff',
+							minWidth: '40px',
+							width: '40px',
+							height: '40px',
+							p: 0,
+							'&:hover': {
+								backgroundColor: '#e67a00',
+							},
+						}}
+					>
+						+
+					</Button>
+				</>
 			)}
-		</Row>
+		</Box>
 	)
 }
 
