@@ -5,7 +5,7 @@ import { useEffect } from 'react'
 import Api from '../lib/Api'
 import { addMinutes, format } from 'date-fns'
 import {
-	Button,
+	IconButton,
 	Container,
 	Paper,
 	Typography,
@@ -83,7 +83,7 @@ const ViewTicket = ({ hasCancel, mappedTicket, onCancel = () => null }) => {
 					alignItems: 'center'
 				}}
 			>
-				<Stack direction="row" spacing={2} alignItems="center" justifyContent="space-between">
+				<Stack direction="row" spacing={2} alignItems="center" justifyContent="space-between" width="100%">
 
 					<Stack direction="row" spacing={4} alignItems="center">
 
@@ -160,14 +160,13 @@ const ViewTicket = ({ hasCancel, mappedTicket, onCancel = () => null }) => {
 					</Stack>
 
 					{hasCancel && (
-						<Button
-							variant="contained"
-							color="error"
-							size="small"
+						<IconButton
+							size='medium'
 							onClick={cancelTicket}
+							sx={{ ml: 'auto', }}
 						>
-							Cancel
-						</Button>
+							🗑️
+						</IconButton>
 					)}
 				</Stack>
 			</Paper>
