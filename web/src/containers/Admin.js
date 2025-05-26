@@ -6,18 +6,13 @@ import { Header } from '../components'
 import Login from '../screens/login'
 import BuyTicket from '../screens/buyTicket'
 import AdminDashboard from '../screens/adminDashboard'
+import ViewTicket from '../screens/viewTicket'
 
 const Admin = ({ }) => {
     const dispatch = useDispatch()
 
     useEffect(() => {
     }, [])
-
-    async function initialize() {
-    }
-
-    async function fetchInitial() {
-    }
 
     return (
         <div>
@@ -27,6 +22,11 @@ const Admin = ({ }) => {
                 <Route
                     path='/'
                     element={<AdminDashboard />}
+                />
+
+                <Route 
+                    path='/ticket/:id'
+                    element={<ViewTicket hasCancel />}
                 />
             </Routes>
         </div>
