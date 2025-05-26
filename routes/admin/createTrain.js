@@ -14,7 +14,7 @@ async function createTrain(req, res, id) {
     name, from, to, departure, duration, ticketPrice
   })
 
-  const seats = Promise.all(
+  const seats = await Promise.all(
     seatNames.map(item => Seat.create({
       train,
       number: item

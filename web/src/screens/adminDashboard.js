@@ -89,14 +89,14 @@ const AdminDashboard = () => {
 
     const handleAdd = async (newTrain) => {
         const res = await Api.post('admin/createTrain', newTrain);
-        if (res) {
-            dispatch({
-                type: 'ADD_TRAIN',
-                payload: res
-            })
+        if (!res) return
 
-            setOpen(false);
-        }
+        dispatch({
+            type: 'ADD_TRAIN',
+            payload: res
+        })
+
+        setOpen(false);
     };
 
     const handleDelete = (id) => {
@@ -112,10 +112,18 @@ const AdminDashboard = () => {
         setOpen(true);
     };
 
-    const handleUpdate = (updatedTrain) => {
+    const handleUpdate = async (updatedTrain) => {
+        const data = {
+            _id: editingTrain._id,
+            ...updatedTrain
+        }
+
+        const res = await Api.post('admin/editTrain', data);
+        if(!res) return
+
         dispatch({
             type: 'UPDATE_TRAIN',
-            payload: updatedTrain
+            payload: res.train
         })
 
         setOpen(false);
