@@ -23,6 +23,7 @@ import Col from '../components/Col';
 import Row from '../components/Row';
 import AddStation from './addStation';
 import { format } from 'date-fns';
+import ViewTicket from './viewTicket';
 
 const palette = {
     primary: '#27187E',
@@ -59,9 +60,11 @@ const StyledButton = styled(Button)(({ theme }) => ({
 const AdminDashboard = () => {
     const [editingTrain, setEditingTrain] = useState(null);
     const [open, setOpen] = useState(false);
+    const [openTicketView, setOpenTicketView] = useState(false);
     const [mode, setMode] = useState('add');
     const stations = useSelector(state => state.stations) ?? [];
     const trains = useSelector(state => state.trains) ?? [];
+    const [tickets, setTickets] = useState([]);
     const dispatch = useDispatch()
 
     useEffect(() => {
@@ -112,6 +115,15 @@ const AdminDashboard = () => {
         setMode('edit');
         setOpen(true);
     };
+
+    const handleOpenTicketView = async (trainId) =>{
+    const res = await Api.post('admin/getTickets', { trainId });
+    if (!res) return;
+
+    setTickets(res.tickets); // veya API'nin dönüş yapısına göre düzenle
+    setOpenTicketView(true);
+
+    }
 
     const handleUpdate = async (updatedTrain) => {
         const data = {
@@ -175,6 +187,7 @@ const AdminDashboard = () => {
                                     <TableCell>{formatDeparture(train.departure)}</TableCell>
                                     <TableCell>{train.duration}</TableCell>
                                     <TableCell align="center">
+                                        <IconButton onClick={() => handleOpenTicketView(train.id) }>🎟️</IconButton>
                                         <IconButton onClick={() => handleEdit(train)} sx={{ color: palette.primary }}>✏️</IconButton>
                                         <IconButton onClick={() => handleDelete(train.id)} sx={{ color: palette.accent }}>🗑️</IconButton>
                                     </TableCell>
@@ -209,6 +222,36 @@ const AdminDashboard = () => {
                             onAdd={handleAdd}
                             onUpdate={handleUpdate}
                         />
+                    </Box>
+                </Modal>
+
+                <Modal
+                    open={openTicketView}
+                    onClose={() => setOpenTicketView(false)}
+                    aria-labelledby="modal-modal-title"
+                    aria-describedby="modal-modal-description"
+                >
+                    <Box sx={{
+                        position: 'absolute',
+                        top: '50%',
+                        left: '50%',
+                        transform: 'translate(-50%, -50%)',
+                        width: 400,
+                        bgcolor: 'background.paper',
+                        borderRadius: 2,
+                        boxShadow: 24,
+                        p: 4,
+                    }}>
+                        <Typography variant="h6" align='center' gutterBottom>
+                            Tickets
+                        </Typography>
+                    {tickets.map(ticket => (
+                        <ViewTicket
+                            hasCancel={true}
+                            mappedTicket={ticket}
+                        />
+        ))}
+                    
                     </Box>
                 </Modal>
             </StyledPaper>

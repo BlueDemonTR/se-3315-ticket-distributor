@@ -4,16 +4,20 @@ import { useNavigate, useParams } from 'react-router-dom'
 import { useEffect } from 'react'
 import Api from '../lib/Api'
 import { addMinutes, format } from 'date-fns'
-import { ButtonBase } from '@mui/material'
+import { Button} from '@mui/material'
 
-const ViewTicket = ({ hasCancel }) => {
+const ViewTicket = ({ hasCancel,mappedTicket}) => {
 	const { id } = useParams()
 	const navigate = useNavigate()
 	const [loading, setLoading] = useState(false)
 	const [ticket, setTicket] = useState(null)
 
 	useEffect(() => {
-		fetch()
+		if(mappedTicket){
+			setTicket(mappedTicket);
+		}
+		else fetch()
+		
 	}, [])
 
 	async function fetch() {
@@ -51,8 +55,8 @@ const ViewTicket = ({ hasCancel }) => {
 	return (
 		<Col wid='100%' ht='700px' centerAll noFlex gap='16px'>
 			{hasCancel && (
-				<ButtonBase
-					style={{
+				<Button
+					sx={{
 						background: 'red',
 						color: 'white',
 						padding: 4
@@ -61,9 +65,11 @@ const ViewTicket = ({ hasCancel }) => {
 				>
 
 					Cancel Ticket
-				</ButtonBase>
+				</Button>
 			)}
 
+
+			
 			<Col pad='12px' wid='600px' bg='cyan' center noFlex>
 				<Row gap='16px'>
 					<Col>
