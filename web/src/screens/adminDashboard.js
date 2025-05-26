@@ -117,12 +117,17 @@ const AdminDashboard = () => {
     };
 
     const handleOpenTicketView = async (trainId) =>{
-    const res = await Api.post('admin/getTickets', { trainId });
-    if (!res) return;
+        const res = await Api.post('admin/getTickets', { trainId });
+        if (!res) return;
 
-    setTickets(res.tickets); // veya API'nin dönüş yapısına göre düzenle
-    setOpenTicketView(true);
+        setTickets(res.tickets); // veya API'nin dönüş yapısına göre düzenle
+        setOpenTicketView(true);
 
+    }
+
+    function handleRemoveTicket(ticketId) {
+        setTickets(tickets => tickets.filter(x => x._id !== ticketId))
+        
     }
 
     const handleUpdate = async (updatedTrain) => {
@@ -187,9 +192,9 @@ const AdminDashboard = () => {
                                     <TableCell>{formatDeparture(train.departure)}</TableCell>
                                     <TableCell>{train.duration}</TableCell>
                                     <TableCell align="center">
-                                        <IconButton onClick={() => handleOpenTicketView(train)}>🎟️</IconButton>
+                                        <IconButton onClick={() => handleOpenTicketView(train._id)}>🎟️</IconButton>
                                         <IconButton onClick={() => handleEdit(train)} sx={{ color: palette.primary }}>✏️</IconButton>
-                                        <IconButton onClick={() => handleDelete(train.id)} sx={{ color: palette.accent }}>🗑️</IconButton>
+                                        <IconButton onClick={() => handleDelete(train._id)} sx={{ color: palette.accent }}>🗑️</IconButton>
                                     </TableCell>
                                 </TableRow>
                             ))}
@@ -237,6 +242,9 @@ const AdminDashboard = () => {
                         left: '50%',
                         transform: 'translate(-50%, -50%)',
                         width: 500,
+                        height: 600,
+                        overflowX: 'hidden',
+                        overflowY: 'scroll',
                         bgcolor: 'background.paper',
                         borderRadius: 2,
                         boxShadow: 24,
@@ -245,13 +253,15 @@ const AdminDashboard = () => {
                         <Typography variant="h6" align='center' gutterBottom>
                             Tickets
                         </Typography>
-                    {tickets.map(ticket => (
-                        <ViewTicket
-                            hasCancel={true}
-                            mappedTicket={ticket}
-                        />
-        ))}
-                    
+                        
+                        {tickets.map(ticket => (
+                            <ViewTicket
+                                hasCancel={true}
+                                mappedTicket={ticket}
+                                onCancel={() => handleRemoveTicket(ticket._id)}
+                            />
+                        ))}
+                        
                     </Box>
                 </Modal>
             </StyledPaper>

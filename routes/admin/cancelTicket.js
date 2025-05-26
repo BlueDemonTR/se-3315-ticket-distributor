@@ -11,6 +11,7 @@ async function cancelTicket(req, res, id) {
   }
 
   const train = await Ticket.findByIdAndDelete(ticketId)
+  
 
   return res.send(true)
 }

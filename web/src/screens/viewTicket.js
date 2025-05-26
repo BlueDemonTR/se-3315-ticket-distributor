@@ -6,7 +6,7 @@ import Api from '../lib/Api'
 import { addMinutes, format } from 'date-fns'
 import { Button, Container} from '@mui/material'
 
-const ViewTicket = ({ hasCancel,mappedTicket}) => {
+const ViewTicket = ({ hasCancel, mappedTicket, onCancel = () => null }) => {
 	const { id } = useParams()
 	const navigate = useNavigate()
 	const [loading, setLoading] = useState(false)
@@ -31,10 +31,13 @@ const ViewTicket = ({ hasCancel,mappedTicket}) => {
 	}	
 	
 	async function cancelTicket() {
-		const res = await Api.post('admin/cancelTicket', { ticketId: id })
+		const res = await Api.post('admin/cancelTicket', { ticketId: mappedTicket._id })
+		console.log(res);
+		
 		if(!res) return
 
 		navigate('/');
+		onCancel();
 
 	}
 
