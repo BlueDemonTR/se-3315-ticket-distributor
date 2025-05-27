@@ -5,8 +5,6 @@ async function editTrain(req, res, id) {
   const { body } = req,
     { _id, name, from, to, departure, duration, ticketPrice, seatNames = [] } = body
 
-  console.log('hello?')
-
   if(!authorize(id)) {
     res.send("Unauthorized", 400)
     return
@@ -26,10 +24,11 @@ async function editTrain(req, res, id) {
   )
 
   await Seat.updateMany({
-    train: _id
+    train: newTrain
   }, {
     deleted: true
   })
+
 
   const seats = await Promise.all(
     seatNames.map(item => Seat.create({

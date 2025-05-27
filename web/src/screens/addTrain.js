@@ -10,6 +10,7 @@ import { DateTimePicker } from '@mui/x-date-pickers/DateTimePicker';
 import dayjs from 'dayjs';
 import { useDispatch, useSelector } from 'react-redux';
 import { Spinner2 } from '../components';
+import { differenceInMinutes } from 'date-fns';
 
 const validationSchema = Yup.object({
     from: Yup.string().required('Departure is required.'),
@@ -55,7 +56,7 @@ function AddTrain({ onAdd, onUpdate, defaultValues }) {
             from: values.from,
             to: values.to,
             departure: values.departure.toISOString(),
-            duration: 1,
+            duration: Math.abs(differenceInMinutes(values.departure, values.arrival)),
             ticketPrice: Number(values.ticketPrice),
             seatNames: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
         };

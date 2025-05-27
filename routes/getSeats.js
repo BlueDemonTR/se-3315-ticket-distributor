@@ -5,7 +5,7 @@ async function getSeats(req, res, id) {
   const { body } = req,
     { train } = body
 
-  const query = { train }
+  const query = { train, deleted: { $ne: true } }
   const seats = await Seat
     .find(query)
 

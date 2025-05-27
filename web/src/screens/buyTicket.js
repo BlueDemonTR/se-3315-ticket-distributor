@@ -14,6 +14,7 @@ import Api from '../lib/Api';
 import Row from '../components/Row';
 import { useEffect } from 'react';
 import { Spinner2 } from '../components';
+import { addMinutes, format } from 'date-fns';
 
 const palette = {
     primary: '#27187E',
@@ -128,6 +129,8 @@ const BuyTicket = () => {
             </Container>
         );
     }
+    
+    const arrival = addMinutes(new Date(train.departure), train.duration)
 
     return (
         <Container>
@@ -136,7 +139,11 @@ const BuyTicket = () => {
                     Bilet Satın Al
                 </Typography>
                 <Typography sx={{ color: palette.secondary, mb: 2 }}>
-                    {train.name} &mdash; Departure: <b>{train.departure}</b> | Arrival: <b>{train.arrival}</b>
+                    {train.name} &mdash; 
+                    Departure: 
+                    <b>{format(train.departure, 'd MMM y hh:mm')}</b> | 
+                    Arrival: 
+                    <b>{format(arrival, 'd MMM y hh:mm')}</b>
                 </Typography>
                 <Box mb={3}>
                     <Typography sx={{ color: palette.primary, fontWeight: 600, mb: 1 }}>
@@ -201,7 +208,7 @@ const BuyTicket = () => {
                         <Spinner2 />
                     ) : (
                         <StyledButton onClick={handleSubmit} on fullWidth disabled={!name || !seat}>
-                            Buy
+                            Buy - {train.ticketPrice}₺ 
                         </StyledButton>
                     )}
                 </Box>

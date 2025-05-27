@@ -6,7 +6,11 @@ const SeatSchema = new Schema({
         ref: 'Train'
     },
     number: {
-        type: 'String'
+        type: String
+    },
+    deleted: {
+        type: Boolean,
+        default: false
     }
 })
 

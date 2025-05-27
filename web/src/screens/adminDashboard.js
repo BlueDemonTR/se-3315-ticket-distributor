@@ -98,7 +98,7 @@ const AdminDashboard = () => {
 
         dispatch({
             type: 'ADD_TRAIN',
-            payload: res
+            payload: res.train
         })
 
         setOpen(false);
@@ -131,14 +131,9 @@ const AdminDashboard = () => {
     }
 
     function handleRemoveTicket(ticketId) {
-        const prefilter = tickets
         const postfilter = tickets.filter(x => x._id !== ticketId)
-        
-        console.log(prefilter.map(x => x._id), postfilter.map(x => x._id))
-
 
         setTickets(postfilter)
-
     }
 
     const handleUpdate = async (updatedTrain) => {
@@ -166,6 +161,8 @@ const AdminDashboard = () => {
     };
 
     function formatDeparture(time) {
+        if(!time) return
+        
         return format(new Date(time), 'd MMM y hh:mm')
     }
 
