@@ -49,7 +49,7 @@ const ContentArea = styled.div`
   position: relative;
   overflow-y: scroll;
   scrollbar-width: none;
-  border-radius: 24px;
+  border-radius: 4px;
   min-height: 300px;
 
   animation: ${fadeIn} 0.4s linear;

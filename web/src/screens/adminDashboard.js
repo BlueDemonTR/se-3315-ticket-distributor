@@ -124,7 +124,7 @@ const AdminDashboard = () => {
         setTicketLoading(false);
         if (!res) return;
 
-        setTickets(res.tickets); 
+        setTickets(res.tickets);
         setOpenTicketView(true);
 
 
@@ -161,8 +161,8 @@ const AdminDashboard = () => {
     };
 
     function formatDeparture(time) {
-        if(!time) return
-        
+        if (!time) return
+
         return format(new Date(time), 'd MMM y hh:mm')
     }
 
@@ -222,16 +222,16 @@ const AdminDashboard = () => {
                     aria-describedby="modal-modal-description"
                 >
                     <Col pad='12px' wid='calc(100% - 24px)'>
-                    <Typography variant="h6" align='center' gutterBottom>
-                        {mode === 'edit' ? 'Edit Train' : 'Add Train'}
-                    </Typography>
-                    <AddTrain
-                        defaultValues={editingTrain}
-                        onAdd={handleAdd}
-                        onUpdate={handleUpdate}
-                    />
+                        <Typography variant="h6" align='center' gutterBottom>
+                            {mode === 'edit' ? 'Edit Train' : 'Add Train'}
+                        </Typography>
+                        <AddTrain
+                            defaultValues={editingTrain}
+                            onAdd={handleAdd}
+                            onUpdate={handleUpdate}
+                        />
                     </Col>
-                    
+
                 </Modal>
 
                 <Modal
@@ -247,7 +247,7 @@ const AdminDashboard = () => {
                             Tickets
                         </Typography>
                     </Col>
-                    
+                    {!tickets.length ? <Typography align='center' variant='h5'>No Ticket Has Been Sold.</Typography> : null}
                     <Col pad='20px'>
                         {tickets.map((ticket, i) => (
                             <ViewTicket
