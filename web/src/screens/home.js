@@ -94,8 +94,8 @@ const HomePage = () => {
 			{
 				after: startOfDay(date),
 				before: endOfDay(date),
-				from: from._id,
-				to: to._id
+				from: from,
+				to: to
 			}
 		);
 		if(!res) return

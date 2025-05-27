@@ -13,9 +13,7 @@ async function adminLogin(req, res, id) {
   })
 
   if(!user.validPassword(password, user.password)) {
-    return res.send({
-      err: 'Wrong password'
-    })
+    return res.send("Incorrect password", 400)
   }
 
   delete user.password
