@@ -10,6 +10,7 @@ import bodyParser from 'body-parser';
 var indexRouter = require('./routes/index');
 
 const port = 38215
+const path = __dirname + '/web/build/';
 
 const corsSettings = {
   origin: function (origin, callback) {
@@ -32,4 +33,8 @@ app.listen(port, function () {
   console.log(`Example app listening on port ${port}!`)
 })
 
-app.use('/', indexRouter);
+app.get('/', function(req,res){
+  res.sendFile(path + 'index.html');
+});
+
+app.use('/api', indexRouter);

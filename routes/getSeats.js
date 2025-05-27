@@ -9,10 +9,14 @@ async function getSeats(req, res, id) {
   const seats = await Seat
     .find(query)
 
+  console.log(seats.map(x => x._id))
+
   const tickets = await Ticket.find({
     seat: seats.map(x => x._id),
-    deleted: { $ne: true }
   })
+
+  console.log(tickets)
+  
 
   const mappedSeats = seats.map(x => ({
     ...x.toObject(),

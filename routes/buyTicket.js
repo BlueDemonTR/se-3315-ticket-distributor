@@ -5,7 +5,7 @@ async function buyTicket(req, res, id) {
   const { body } = req,
     { train, number, name, email, phone } = body
 
-  const query = { train, number }
+  const query = { train, number, deleted: { $ne: true } }
   const seat = await Seat
     .findOne(query)
 
@@ -22,7 +22,7 @@ async function buyTicket(req, res, id) {
     return
   }
 
-  let user = await User.findOne({ name })
+  let user = await User.findOneAndUpdate({ name }, { email, phoneNumber: phone })
 
   if(!user) {
     user = await User.create({
