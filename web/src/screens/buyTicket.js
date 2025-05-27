@@ -94,7 +94,7 @@ const BuyTicket = () => {
         setFetchLoading(true)
 
         const res = await Api.post('getSeats', { train: train._id });
-        if(!res) return
+        if (!res) return
 
         setFetchLoading(false)
 
@@ -112,7 +112,7 @@ const BuyTicket = () => {
             setError(true);
             return;
         }
-        
+
         const res = await Api.post("buyTicket", { train, number: seat, name, email, phone })
         if (!res) return;
 
@@ -129,20 +129,20 @@ const BuyTicket = () => {
             </Container>
         );
     }
-    
+
     const arrival = addMinutes(new Date(train.departure), train.duration)
 
     return (
         <Container>
             <StyledPaper>
                 <Typography variant="h5" sx={{ color: palette.primary, fontWeight: 700, mb: 2 }}>
-                    Bilet Satın Al
+                    Buy Ticket
                 </Typography>
                 <Typography sx={{ color: palette.secondary, mb: 2 }}>
-                    {train.name} &mdash; 
-                    Departure: 
-                    <b>{format(train.departure, 'd MMM y hh:mm')}</b> | 
-                    Arrival: 
+                    {train.name} &mdash;
+                    Departure:
+                    <b>{format(train.departure, 'd MMM y hh:mm')}</b> |
+                    Arrival:
                     <b>{format(arrival, 'd MMM y hh:mm')}</b>
                 </Typography>
                 <Box mb={3}>
@@ -161,7 +161,7 @@ const BuyTicket = () => {
                         }}
                     >
                         <Row wrapFlex>
-                            
+
                             {!fetchLoading ? (
                                 seatLayout.map(({ number, _id, occupied }, i) => (
                                     <SeatBox
@@ -173,7 +173,7 @@ const BuyTicket = () => {
                                     >
                                         {number}
                                     </SeatBox>
-                            ))) : (
+                                ))) : (
                                 <Spinner2 />
                             )}
                         </Row>
@@ -208,7 +208,7 @@ const BuyTicket = () => {
                         <Spinner2 />
                     ) : (
                         <StyledButton onClick={handleSubmit} on fullWidth disabled={!name || !seat}>
-                            Buy - {train.ticketPrice}₺ 
+                            Buy - {train.ticketPrice}₺
                         </StyledButton>
                     )}
                 </Box>
