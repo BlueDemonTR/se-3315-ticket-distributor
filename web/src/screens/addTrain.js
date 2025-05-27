@@ -32,7 +32,7 @@ function AddTrain({ onAdd, onUpdate, defaultValues }) {
 
     async function fetchStations() {
         const res = await Api.post('getStations', {});
-        if(!res) return
+        if (!res) return
 
         dispatch({
             type: 'SET_STATIONS',
@@ -72,7 +72,7 @@ function AddTrain({ onAdd, onUpdate, defaultValues }) {
 
     };
 
-    if(!stations.length) return null
+    if (!stations.length) return null
 
     return (
         <Formik
@@ -97,6 +97,11 @@ function AddTrain({ onAdd, onUpdate, defaultValues }) {
                                 onChange={handleChange}
                                 onBlur={handleBlur}
                                 label="Departure Location"
+                                MenuProps={{
+                                    PaperProps: {
+                                        sx: { maxHeight: 200 }
+                                    }
+                                }}
                             >
                                 {stations.map((station) => (
                                     <MenuItem key={station._id} value={station._id}>
@@ -118,6 +123,11 @@ function AddTrain({ onAdd, onUpdate, defaultValues }) {
                                 onChange={handleChange}
                                 onBlur={handleBlur}
                                 label="Arrival Location"
+                                MenuProps={{
+                                    PaperProps: {
+                                        sx: { maxHeight: 200 }
+                                    }
+                                }}
                             >
                                 {stations.map((station) => (
                                     <MenuItem key={station._id} value={station._id}>

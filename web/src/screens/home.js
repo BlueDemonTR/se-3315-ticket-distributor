@@ -1,4 +1,4 @@
-import React, { useState,useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
 	Box,
 	Container,
@@ -69,28 +69,28 @@ const HomePage = () => {
 	const [filteredTrains, setFilteredTrains] = useState([]);
 	const navigate = useNavigate();
 	const dispatch = useDispatch()
-	
+
 	useEffect(() => {
-			fetch();
+		fetch();
 	}, []);
 
 	async function fetch() {
-			const res = await Api.post('getStations', {});
-			if(!res) return
+		const res = await Api.post('getStations', {});
+		if (!res) return
 
-			dispatch({
-					type: 'SET_STATIONS',
-					payload: res.stations
-			})
+		dispatch({
+			type: 'SET_STATIONS',
+			payload: res.stations
+		})
 	};
 
 	useEffect(() => {
 		setShowTrains(false);
 	}, [from, to, date]);
-	
+
 	const handleSearch = async () => {
 		const res = await Api.post(
-			'getTrains', 
+			'getTrains',
 			{
 				after: startOfDay(date),
 				before: endOfDay(date),
@@ -98,7 +98,7 @@ const HomePage = () => {
 				to: to
 			}
 		);
-		if(!res) return
+		if (!res) return
 
 		setShowTrains(true)
 		setFilteredTrains(res.trains)
@@ -126,6 +126,15 @@ const HomePage = () => {
 							value={from}
 							onChange={e => setFrom(e.target.value)}
 							variant="outlined"
+							SelectProps={{
+								MenuProps: {
+									PaperProps: {
+										sx: {
+											maxHeight: 200,
+										},
+									},
+								},
+							}}
 							sx={{ background: palette.background, borderRadius: 2, fontSize: 10 }}
 						>
 							{stations.map(option => (
@@ -145,6 +154,15 @@ const HomePage = () => {
 							value={to}
 							onChange={e => setTo(e.target.value)}
 							variant="outlined"
+							SelectProps={{
+								MenuProps: {
+									PaperProps: {
+										sx: {
+											maxHeight: 200,
+										},
+									},
+								},
+							}}
 							sx={{ background: palette.background, borderRadius: 2, fontSize: 10 }}
 						>
 							{stations.map(option => (
@@ -191,9 +209,9 @@ const HomePage = () => {
 										From {getStation(train.from)?.name} to {getStation(train.to)?.name}
 									</Typography>
 									<Typography sx={{ color: palette.secondary }}>
-										Departure: <b>{format(train.departure, 'd MMM Y hh:mm') }</b> 
-										&nbsp;|&nbsp; 
-										Duration: <b>{train.duration + ' '}</b> 
+										Departure: <b>{format(train.departure, 'd MMM Y hh:mm')}</b>
+										&nbsp;|&nbsp;
+										Duration: <b>{train.duration + ' '}</b>
 										Minute{train.duration === 1 || 's'}
 									</Typography>
 								</Box>
