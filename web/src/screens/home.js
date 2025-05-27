@@ -62,8 +62,8 @@ const TrainCard = styled(Paper)(({ theme }) => ({
 
 const HomePage = () => {
 	const stations = useSelector(state => state.stations)
-	const [from, setFrom] = useState('istanbul');
-	const [to, setTo] = useState('ankara');
+	const [from, setFrom] = useState(null);
+	const [to, setTo] = useState(null);
 	const [date, setDate] = useState(new Date());
 	const [showTrains, setShowTrains] = useState(false);
 	const [filteredTrains, setFilteredTrains] = useState([]);
