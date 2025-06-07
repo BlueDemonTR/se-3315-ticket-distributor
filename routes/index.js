@@ -52,7 +52,7 @@ function handleSend(data, status = 200) {
 	this.end()
 }
 
-function handleMessage(req, res) {
+function handleMessage(req, res, next) {
 	const method = connectionObject[req.method]
 
 	if(!method) {
@@ -102,7 +102,7 @@ function handleMessage(req, res) {
 }
 
 router.use('/*splat', function(req, res, next) {
-  handleMessage(req, res)
+  handleMessage(req, res, next)
 });
 
 module.exports = router;
