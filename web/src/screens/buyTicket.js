@@ -84,7 +84,11 @@ const BuyTicket = () => {
     const [error, setError] = useState(false);
     const [submitLoading, setSubmitLoading] = useState(false);
     const [fetchLoading, setFetchLoading] = useState(false);
-    const [seatLayout, setSeatLayout] = useState([])
+    const [seatLayout, setSeatLayout] = useState([]);
+    const [emailError, setEmailError] = useState('');
+    const [phoneError, setPhoneError] = useState('');
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    const phoneRegex = /^0?5\d{9}$/;
 
     useEffect(() => {
         fetch();
@@ -107,13 +111,34 @@ const BuyTicket = () => {
 
     const handleSubmit = async () => {
         setSubmitLoading(true)
+        setEmailError('');
+        setPhoneError('');
+
+        let hasError = false;
 
         if (!name) {
             setError(true);
+            hasError = true;
+        }
+
+        if (email && !emailRegex.test(email)) {
+            setEmailError('Invalid email format');
+            hasError = true;
+        }
+
+        if (phone && !phoneRegex.test(phone)) {
+            setPhoneError('Phone number must start with 5 and be 10 digits long');
+            hasError = true;
+        }
+
+        if (hasError) {
+            setSubmitLoading(false);
             return;
         }
 
-        const res = await Api.post("buyTicket", { train, number: seat, name, email, phone })
+        const normalizedPhone = phone.startsWith('0') ? phone : `0${phone}`;
+
+        const res = await Api.post("buyTicket", { train, number: seat, name, email, phone: normalizedPhone })
         if (!res) return;
 
         setSubmitLoading(false)
@@ -195,6 +220,8 @@ const BuyTicket = () => {
                         value={email}
                         onChange={e => setEmail(e.target.value)}
                         fullWidth
+                        error={!!emailError}
+                        helperText={emailError || 'Optional'}
                         sx={{ mb: 2, background: palette.background, borderRadius: 2 }}
                     />
                     <TextField
@@ -202,6 +229,8 @@ const BuyTicket = () => {
                         value={phone}
                         onChange={e => setPhone(e.target.value)}
                         fullWidth
+                        error={!!phoneError}
+                        helperText={phoneError || 'Optional (must start with 5 and be 10 digits long)'}
                         sx={{ mb: 3, background: palette.background, borderRadius: 2 }}
                     />
                     {submitLoading ? (

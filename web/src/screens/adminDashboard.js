@@ -138,12 +138,12 @@ const AdminDashboard = () => {
 
     async function createBackup() {
         const res = await Api.get('createBackup')
-        if(!res) return
+        if (!res) return
 
         console.log(res);
-        
 
-    } 
+
+    }
 
     const handleUpdate = async (updatedTrain) => {
         const data = {
@@ -190,7 +190,7 @@ const AdminDashboard = () => {
                         <AddStation />
 
                     </Row>
-                    
+
                     <StyledButton onClick={createBackup} sx={{ mb: 3 }}>Generate Backup</StyledButton>
                 </Row>
 
@@ -261,7 +261,7 @@ const AdminDashboard = () => {
                         </Typography>
                     </Col>
                     {!tickets.length ? <Typography align='center' variant='h5'>No Ticket Has Been Sold.</Typography> : null}
-                    <Col pad='20px'>
+                    <Col center pad='20px'>
                         {tickets.map((ticket, i) => (
                             <ViewTicket
                                 key={i}
