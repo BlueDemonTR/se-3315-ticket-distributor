@@ -136,6 +136,15 @@ const AdminDashboard = () => {
         setTickets(postfilter)
     }
 
+    async function createBackup() {
+        const res = await Api.get('createBackup')
+        if(!res) return
+
+        console.log(res);
+        
+
+    } 
+
     const handleUpdate = async (updatedTrain) => {
         const data = {
             _id: editingTrain._id,
@@ -173,12 +182,16 @@ const AdminDashboard = () => {
                     Admin Dashboard
                 </Typography>
 
-                <Row gap='8px'>
+                <Row between>
+                    <Row gap='8px'>
 
-                    <StyledButton onClick={handleOpenAddModal} sx={{ mb: 3 }}>Add train</StyledButton>
+                        <StyledButton onClick={handleOpenAddModal} sx={{ mb: 3 }}>Add train</StyledButton>
 
-                    <AddStation />
+                        <AddStation />
 
+                    </Row>
+                    
+                    <StyledButton onClick={createBackup} sx={{ mb: 3 }}>Generate Backup</StyledButton>
                 </Row>
 
                 <TableContainer>

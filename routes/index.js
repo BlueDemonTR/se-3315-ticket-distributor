@@ -15,6 +15,7 @@ import deleteStation from './admin/deleteStation';
 import deleteTrain from './admin/deleteTrain';
 import editTrain from './admin/editTrain';
 import getTickets from './admin/getTickets';
+import createBackup from './admin/createBackup';
 
 var router = express.Router();
 
@@ -22,7 +23,8 @@ const connectionObject = {
 	"GET": {
 		"/test": async (req, res, id) => {
 			res.send("hello")
-		}
+		},
+		"/createBackup": createBackup
 	},
 	"POST": {
 		"/adminLogin": adminLogin,
