@@ -21,6 +21,12 @@ const AddStation = () => {
 	async function createStation() {
 		if (!name) return
 
+		const nameRegex = /^[A-ZÇĞİÖŞÜ][a-zçğıöşü]{1,}$/u;
+		if (!nameRegex.test(name)) {
+			alert('Please enter a valid station name (e.g., "Ankara")')
+			return
+		}
+		
 		setLoading(true)
 		const res = await Api.post('admin/createStation', { name });
 		setLoading(false)

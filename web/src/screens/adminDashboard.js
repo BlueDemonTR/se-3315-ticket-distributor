@@ -202,7 +202,7 @@ const AdminDashboard = () => {
                                 <TableCell>Arrival</TableCell>
                                 <TableCell>Departure Time</TableCell>
                                 <TableCell>Duration (Minutes)</TableCell>
-                                <TableCell align="center">Actions</TableCell>
+                                <TableCell >Actions</TableCell>
                             </TableRow>
                         </TableHead>
                         <TableBody>
@@ -212,8 +212,8 @@ const AdminDashboard = () => {
                                     <TableCell>{getStationName(train.to)}</TableCell>
                                     <TableCell>{formatDeparture(train.departure)}</TableCell>
                                     <TableCell>{train.duration}</TableCell>
-                                    <TableCell align="center">
-                                        <Row center>
+                                    <TableCell>
+                                        <Row>
                                             {ticketLoading ? <Col marg={'13px 0 0'} ht={'25px'} wid={'25px'} noFlex> <Spinner2 /> </Col> : <IconButton onClick={() => handleOpenTicketView(train._id)}>🎟️</IconButton>}
                                             <IconButton onClick={() => handleEdit(train)} sx={{ color: palette.primary }}>✏️</IconButton>
                                             <IconButton onClick={() => handleDelete(train._id)} sx={{ color: palette.accent }}>🗑️</IconButton>
