@@ -136,7 +136,12 @@ const BuyTicket = () => {
             return;
         }
 
-        const normalizedPhone = phone.startsWith('0') ? phone : `0${phone}`;
+        let normalizedPhone;
+
+        if (phone) {
+            normalizedPhone = phone.startsWith('0') ? phone : `0${phone}`;
+        }
+
 
         const res = await Api.post("buyTicket", { train, number: seat, name, email, phone: normalizedPhone })
         if (!res) return;
