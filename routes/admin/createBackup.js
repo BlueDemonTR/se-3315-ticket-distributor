@@ -52,7 +52,7 @@ async function createBackup(req, res, id) {
 
 	const output = builder.build({ backup })
 
-	const path = `backu:ps\\backup-${new Date().toISOString().replaceAll(':', '-')}.xml` 
+	const path = `backups\\backup-${new Date().toISOString().replaceAll(':', '-')}.xml` 
 
 	await promises.writeFile(path, output)
 
